@@ -30,12 +30,22 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            if ($_GET['person'] === 'student') {
+                // validate student account
+                $user->setIsValidated(true);
 
-            // validate student account
-            $user->setIsValidated(true);
+                // add role for student
+                $user->setRoles(['ROLE_USER', 'ROLE_STUDENT']);
+            }
 
-            // add role for student
-            $user->setRoles(['ROLE_USER']);
+            if ($_GET['person'] === 'instructor') {
+                // instructor account must be validated by administrator
+                $user->setIsValidated(false);
+
+                // add role for student
+                $user->setRoles(['ROLE_USER', 'ROLE_INSTRUCTOR']);
+            }
+
 
             $entityManager->persist($user);
             $entityManager->flush();
