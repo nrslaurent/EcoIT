@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\File;
 
 class RegistrationFormType extends AbstractType
 {
@@ -63,6 +64,15 @@ class RegistrationFormType extends AbstractType
                 ->add('picture', FileType::class, [
                     'label' => 'Photo',
                     'mapped' => false,
+                    'constraints' => [
+                        new File([
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/png',
+                            ],
+                            'mimeTypesMessage' => 'Le fichier doit être au format jpeg, jpg ou png.',
+                        ])
+                    ],
                 ])
                 ->add('skills', TextareaType::class, [
                     'label' => 'Mes spécialités',

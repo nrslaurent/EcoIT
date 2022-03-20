@@ -10,13 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploader;
 
 class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -44,6 +45,12 @@ class RegistrationController extends AbstractController
 
                 // add role for student
                 $user->setRoles(['ROLE_USER', 'ROLE_INSTRUCTOR']);
+
+                $pictureFile = $form->get('picture')->getData();
+                if ($pictureFile) {
+                    $pictureFileName = $fileUploader->upload($pictureFile);
+                    $user->setPicture($pictureFileName);
+                }
             }
 
 
