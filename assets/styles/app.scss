@@ -1,0 +1,22 @@
+@import "~bootstrap/scss/bootstrap";
+
+/* SCSS RGB */
+$french-lilac: rgba(150, 107, 157, 1);
+$old-rose: rgba(201, 134, 134, 1);
+$mellow-apricot: rgba(242, 184, 128, 1);
+$seashell: rgba(255, 244, 236, 1);
+$champagne-pink: rgba(231, 207, 188, 1);
+
+body {
+  background-color: $seashell;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Libre Baskerville", sans-serif;
+}
