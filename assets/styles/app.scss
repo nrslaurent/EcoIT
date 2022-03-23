@@ -15,6 +15,7 @@ body {
 .navbar {
   background-color: $champagne-pink;
   font-size: 1.5em;
+  position: relative;
   .list {
     list-style: none;
     display: flex;
@@ -29,11 +30,19 @@ body {
     &:link {
       text-decoration: none;
     }
-    #logo {
-      width: max-content;
-      height: max-content;
-    }
   }
+  #logo {
+    width: max-content;
+    height: 64px;
+  }
+}
+
+#footer {
+  background-color: $champagne-pink;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
 }
 
 h1,
@@ -59,5 +68,13 @@ h6 {
     #loginNavbar {
       margin-top: 20px;
     }
+    #logo {
+      width: max-content;
+      height: max-content;
+    }
+  }
+  //hide text in footer
+  #textSocialNetwork {
+    display: none;
   }
 }
