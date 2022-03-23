@@ -14,14 +14,14 @@ body {
 
 .navbar {
   background-color: $champagne-pink;
-  font-size: 1.5em;
-  position: relative;
+  font-size: x-large;
   .list {
     list-style: none;
     display: flex;
     justify-content: end;
     .list-item {
       margin-right: 20px;
+      font-size: medium;
     }
   }
   a {
@@ -56,17 +56,16 @@ h6 {
 
 @media (max-width: 992px) {
   .navbar {
-    font-size: 1.8em;
     .list {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
     }
     #registerNavbar {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
     #loginNavbar {
-      margin-top: 20px;
+      margin-top: 10px;
     }
     #logo {
       width: max-content;
