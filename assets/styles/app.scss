@@ -7,6 +7,28 @@ $mellow-apricot: rgba(242, 184, 128, 1);
 $seashell: rgba(255, 244, 236, 1);
 $champagne-pink: rgba(231, 207, 188, 1);
 
+.french-lilac {
+  color: $french-lilac;
+}
+.old-rose {
+  color: $old-rose;
+}
+.mellow-apricot {
+  color: $mellow-apricot;
+}
+.seashell {
+  color: $seashell;
+}
+.champagne-pink {
+  color: $champagne-pink;
+}
+
+.btn-french-lilac {
+  color: color-contrast($french-lilac);
+  background-color: $french-lilac;
+  border-color: $french-lilac;
+}
+
 body {
   background-color: $seashell;
   font-family: "Source Sans Pro", sans-serif;

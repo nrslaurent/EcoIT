@@ -19,6 +19,10 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
+        if (!(isset($_GET['person']))) {
+            $_GET['person'] = 'student';
+        }
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -31,7 +35,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            if ($_GET['person'] === 'student') {
+            if (isset($_GET['person']) && $_GET['person'] === 'student') {
                 // validate student account
                 $user->setIsValidated(true);
 
@@ -39,7 +43,7 @@ class RegistrationController extends AbstractController
                 $user->setRoles(['ROLE_USER', 'ROLE_STUDENT']);
             }
 
-            if ($_GET['person'] === 'instructor') {
+            if (isset($_GET['person']) && $_GET['person'] === 'instructor') {
                 // instructor account must be validated by administrator
                 $user->setIsValidated(false);
 

@@ -3,7 +3,11 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <h1 class="old-rose">S'inscrire</h1>
+    <ul class="list-inline">
+        <li class="list-inline-item"> <a href="{{ path('app_register', {'person':'student'}) }}" class="active">Etudiant</a></li>
+        <li class="list-inline-item"><a href="{{ path('app_register', {'person':'instructor'}) }}">Instructeur</a></li>
+    </ul>
 
     {% if app.request.query.get("person") == "student" %}
         {{ form_start(registrationForm) }}
