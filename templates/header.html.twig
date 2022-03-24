@@ -1,17 +1,21 @@
-<div class="container-fluid container-lg">
+<div class="container-fluid container-lg position-fixed start-50 top-0 translate-middle-x">
   <nav class="row navbar">
-      <div class="d-flex mx-2 col-8">
-        <img src="{{ asset("uploads/images/logo.png") }}" alt="logo" id="logo">
-        <a href="#" class="align-self-center mx-5" id="allCoursesNavbar">Toutes nos formations</a>
-      </div>
-      <ul class="list mx-2 mt-2 col">
-        {% if app.user %}
-          <li class="list-item" id="logoutNavbar"><a href="{{ path("app_logout") }}">Se déconnecter</a></li>
-        {% else %}
-          <li class="list-item" id="registerNavbar"><a href="#">S'inscrire</a></li>
-          <li class="list-item" id="loginNavbar"><a href="{{ path("app_login") }}">Se connecter</a></li>
-        {% endif %}
-      </ul>
-    
+    <div class="d-flex mx-2 col-8">
+      <img src="{{ asset("uploads/images/logo.png") }}" alt="logo" id="logo">
+      {% if app.request.attributes.get('_route') == "app_homepage" %}
+      <a href="#" class="align-self-center mx-5" id="allCoursesNavbar">Toutes nos formations</a>
+      {% else %}
+        <a href="{{ path('app_homepage') }}" class="align-self-center mx-5" id="allCoursesNavbar">accueil</a>
+        <a href="#" class="align-self-center" id="allCoursesNavbar">Toutes nos formations</a>
+      {% endif %}
+    </div>
+    <ul class="list mx-2 mt-2 col">
+      {% if app.user %}
+        <li class="list-item" id="logoutNavbar"><a href="{{ path("app_logout") }}">Se déconnecter</a></li>
+      {% else %}
+        <li class="list-item" id="registerNavbar"><a href="#">S'inscrire</a></li>
+        <li class="list-item" id="loginNavbar"><a href="{{ path("app_login") }}">Se connecter</a></li>
+      {% endif %}
+    </ul>
   </nav>
 </div>  
