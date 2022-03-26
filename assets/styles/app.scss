@@ -34,6 +34,9 @@ body {
   font-family: "Source Sans Pro", sans-serif;
   color: $old-rose;
 }
+a {
+  color: $french-lilac;
+}
 
 .navbar {
   background-color: $champagne-pink;
@@ -47,13 +50,10 @@ body {
       font-size: medium;
     }
   }
-  a {
-    color: $french-lilac;
-
-    &:link {
-      text-decoration: none;
-    }
+  a:link {
+    text-decoration: none;
   }
+
   #logo {
     width: max-content;
     height: 64px;
@@ -95,5 +95,19 @@ h6 {
   //hide text in footer
   #textSocialNetwork {
     display: none;
+  }
+
+  .courseCard {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .courseCardText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .btn {
+      width: 20%;
+    }
   }
 }

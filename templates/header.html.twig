@@ -3,12 +3,19 @@
     <div class="d-flex mx-2 col-8">
       <img src="{{ asset("uploads/images/logo.png") }}" alt="logo" id="logo">
       {% if app.request.attributes.get('_route') == "app_homepage" %}
-      <a href="#" class="align-self-center mx-5" id="allCoursesNavbar">Toutes nos formations</a>
+      <a href="{{ path('app_all_courses') }}" class="align-self-center mx-5" id="allCoursesNavbar">Toutes nos formations</a>
       {% else %}
         <a href="{{ path('app_homepage') }}" class="align-self-center mx-5" id="allCoursesNavbar">accueil</a>
-        <a href="#" class="align-self-center" id="allCoursesNavbar">Toutes nos formations</a>
+        {% if app.request.attributes.get('_route') != "app_all_courses" %}
+        <a href="{{ path('app_all_courses') }}" class="align-self-center" id="allCoursesNavbar">Toutes nos formations</a>
+        {% else %}
+          <form class="col-6 mx-5 align-self-center">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          </form>
+        {% endif %}
       {% endif %}
     </div>
+  
     <ul class="list mx-2 mt-2 col">
       {% if app.user %}
         <li class="list-item" id="logoutNavbar"><a href="{{ path("app_logout") }}">Se déconnecter</a></li>

@@ -7,16 +7,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomepageController extends AbstractController
+class AllCoursesController extends AbstractController
 {
     /**
-     * @Route("/", name="app_homepage")
+     * @Route("/all/courses", name="app_all_courses")
      */
     public function index(CourseRepository $courseRepository): Response
     {
-
-        return $this->render('homepage/index.html.twig', [
-            'courses' => $courseRepository->getLastPublishedCourses(),
+        return $this->render('all_courses/allcourses.html.twig', [
+            'allCourses' => $courseRepository->getAllCoursesByDate(),
         ]);
     }
 }
