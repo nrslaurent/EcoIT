@@ -13,8 +13,12 @@
       {% if app.user %}
         <li class="list-item" id="logoutNavbar"><a href="{{ path("app_logout") }}">Se déconnecter</a></li>
       {% else %}
-        <li class="list-item" id="registerNavbar"><a href="{{ path("app_register") }}">S'inscrire</a></li>
+        {% if app.request.attributes.get('_route') != "app_register" %}
+        <li class="list-item" id="registerNavbar"><a href="{{ path("app_register",{'person':'student'}) }}">S'inscrire</a></li>
+        {% endif %}
+        {% if app.request.attributes.get('_route') != "app_login" %}
         <li class="list-item" id="loginNavbar"><a href="{{ path("app_login") }}">Se connecter</a></li>
+        {% endif %}
       {% endif %}
     </ul>
   </nav>

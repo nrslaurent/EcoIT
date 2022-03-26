@@ -25,15 +25,33 @@ class RegistrationFormType extends AbstractType
             $builder
                 ->add('email', TextType::class, [
                     'label' => 'Adresse email',
+                    'label_attr' => [
+                        'class' => 'old-rose ',
+                    ],
+                    'row_attr' => [
+                        'class' => 'mb-4',
+                    ],
                 ])
                 ->add('nickname', TextType::class, [
                     'label' => 'Pseudo',
+                    'label_attr' => [
+                        'class' => 'old-rose ',
+                    ],
+                    'row_attr' => [
+                        'class' => 'mb-4',
+                    ],
                 ])
                 ->add('plainPassword', PasswordType::class, [
                     // instead of being set onto the object directly,
                     // this is read and encoded in the controller
                     'mapped' => false,
                     'label' => 'Mot de passe',
+                    'label_attr' => [
+                        'class' => 'old-rose ',
+                    ],
+                    'row_attr' => [
+                        'class' => 'mb-4',
+                    ],
                     'attr' => ['autocomplete' => 'new-password'],
                     'constraints' => [
                         new NotBlank([
@@ -54,15 +72,27 @@ class RegistrationFormType extends AbstractType
             $builder
                 ->add('email', TextType::class, [
                     'label' => 'Adresse email',
+                    'label_attr' => [
+                        'class' => 'old-rose ',
+                    ]
                 ])
                 ->add('firstname', TextType::class, [
                     'label' => 'Prénom',
+                    'label_attr' => [
+                        'class' => 'old-rose ',
+                    ]
                 ])
                 ->add('lastname', TextType::class, [
                     'label' => 'Nom',
+                    'label_attr' => [
+                        'class' => 'old-rose ',
+                    ]
                 ])
                 ->add('picture', FileType::class, [
                     'label' => 'Photo',
+                    'label_attr' => [
+                        'class' => 'old-rose ',
+                    ],
                     'mapped' => false,
                     'constraints' => [
                         new File([
@@ -76,12 +106,18 @@ class RegistrationFormType extends AbstractType
                 ])
                 ->add('skills', TextareaType::class, [
                     'label' => 'Mes spécialités',
+                    'label_attr' => [
+                        'class' => 'old-rose ',
+                    ]
                 ])
                 ->add('plainPassword', PasswordType::class, [
                     // instead of being set onto the object directly,
                     // this is read and encoded in the controller
                     'mapped' => false,
                     'label' => 'Mot de passe',
+                    'label_attr' => [
+                        'class' => 'old-rose ',
+                    ],
                     'attr' => ['autocomplete' => 'new-password'],
                     'constraints' => [
                         new NotBlank([

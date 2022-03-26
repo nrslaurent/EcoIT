@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 {% block body %}
 <div class="container-fluid lg-container">
     <div class="row vh-100 d-flex justify-content-center align-items-center">
@@ -17,10 +17,10 @@
                 {% endif %}
 
                 <h1 class="mb-5 font-weight-normal old-rose text-center" id="connexionTitle">Connexion</h1>
-                <label for="inputEmail" class="old-rose">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mb-5" autocomplete="email" required autofocus>
-                <label for="inputPassword" class="old-rose">Password</label>
-                <input type="password" name="password" id="inputPassword" class="form-control mb-5" autocomplete="current-password" required>
+                <label for="inputEmail" class="old-rose mb-3">Email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mb-4" autocomplete="email" required autofocus>
+                <label for="inputPassword" class="old-rose mb-3">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control mb-4" autocomplete="current-password" required>
 
                 <input type="hidden" name="_csrf_token"
                     value="{{ csrf_token('authenticate') }}"
@@ -36,7 +36,7 @@
                     </div>
                 #}
 
-                <button class="btn btn-lg btn-french-lilac my-3" type="submit">
+                <button class="btn btn-french-lilac my-3" type="submit">
                     Connecter
                 </button>
             </form>
