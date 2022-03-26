@@ -14,6 +14,8 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('description')
+            ->add('picture')
             ->add('isPublished')
             ->add('publishedAt')
             ->add('createBy')

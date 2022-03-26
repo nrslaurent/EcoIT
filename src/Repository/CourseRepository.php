@@ -45,6 +45,17 @@ class CourseRepository extends ServiceEntityRepository
         }
     }
 
+    public function GetLastPublishedCourses()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.isPublished = :val')
+            ->setParameter('val', 1)
+            ->orderBy('c.publishedAt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Course[] Returns an array of Course objects
     //  */

@@ -32,6 +32,7 @@ $champagne-pink: rgba(231, 207, 188, 1);
 body {
   background-color: $seashell;
   font-family: "Source Sans Pro", sans-serif;
+  color: $old-rose;
 }
 
 .navbar {
@@ -70,6 +71,7 @@ h4,
 h5,
 h6 {
   font-family: "Libre Baskerville", sans-serif;
+  color: $french-lilac;
 }
 
 @media (max-width: 992px) {

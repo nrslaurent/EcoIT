@@ -2,4 +2,25 @@
 {% block title %}Hello HomepageController!{% endblock %}
 
 {% block body %}
+<div class="container-fluid container-lg">
+  <div class="row">
+    <div class="d-flex flex-column">
+      <p class="my-5"><span class="fs-5 fw-bold">EcoIT</span> est une plateforme d’éducation éco-responsable dont les cours sont dispensés par des experts en accessibilité et en éco-conception web.</p>
+      <p class="fst-italic align-bottom my-3">Nos dernières formations publiées:</p>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center align-items-center">
+  {% for course in courses %}
+    <div class="card mx-5" style="width: 18rem;">
+      <img src="{{ asset("uploads/images/logo.png") }}" class="card-img-top" alt="course_picture">
+      <div class="card-body">
+        <h5 class="card-title">{{course.title}}</h5>
+        <p class="card-text">{{course.description}}.</p>
+        <a href="#" class="btn btn-french-lilac">Suivre</a>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+
 {% endblock %}
