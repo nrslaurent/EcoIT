@@ -5,7 +5,7 @@
 <div class="container-fluid lg-container">
     <div class="row vh-100 d-flex justify-content-center align-items-center">
         <div class="col-10 col-lg-4">
-            <form method="post">
+            <form method="post" id="loginForm">
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
@@ -36,7 +36,7 @@
                     </div>
                 #}
 
-                <button class="btn btn-french-lilac my-3" type="submit">
+                <button class="btn btn-french-lilac my-3" type="submit" id="loginButton" name="loginButton">
                     Connecter
                 </button>
             </form>

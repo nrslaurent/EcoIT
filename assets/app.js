@@ -16,6 +16,44 @@ const $ = require("jquery");
 // the bootstrap module doesn't export/return anything
 require("bootstrap");
 
-$(document).ready(function () {
+/*$(document).ready(function () {
   $('[data-toggle="popover"]').popover();
+});*/
+
+/*let allInstructors = $.ajax({
+  url: "login",
+  dataType: "json",
+  success: function (data) {
+    console.log(data);
+  },
+});*/
+
+let loginForm = $("#loginForm");
+loginForm.on("submit", (event) => {
+  event.preventDefault();
+  //fetch email and validation status for all instructors
+  $.ajax({
+    url: window.location.href,
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
+      //compare email value with email field
+      $.each(data["message"], (key, value) => {
+        if (
+          value["email"].toLowerCase() === $("#inputEmail").val().toLowerCase()
+        ) {
+          if (value["isValidated"] === false) {
+            alert(
+              "Votre compte n'a pas encore été validé, vous ne pouvez pas vous connecter pour le moment."
+            );
+            return false;
+          } else {
+            event.currentTarget.submit();
+          }
+        } else {
+          event.currentTarget.submit();
+        }
+      });
+    },
+  });
 });
