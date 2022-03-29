@@ -70,7 +70,8 @@ class CourseRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.title LIKE :val OR c.description LIKE :val')
-            ->setParameter('val', '%' . $word . '%')
+            ->andWhere('c.isPublished = :publishedVal')
+            ->setParameters(array('val' => '%' . $word . '%', 'publishedVal' => 1))
             ->getQuery()
             ->getResult();
     }
