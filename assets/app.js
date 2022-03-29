@@ -20,14 +20,6 @@ require("bootstrap");
   $('[data-toggle="popover"]').popover();
 });*/
 
-/*let allInstructors = $.ajax({
-  url: "login",
-  dataType: "json",
-  success: function (data) {
-    console.log(data);
-  },
-});*/
-
 let loginForm = $("#loginForm");
 loginForm.on("submit", (event) => {
   event.preventDefault();
@@ -54,6 +46,40 @@ loginForm.on("submit", (event) => {
           event.currentTarget.submit();
         }
       });
+    },
+  });
+});
+
+let searchBar = $("#searchBar");
+searchBar.on("keyup", () => {
+  $.ajax({
+    url: window.location.href,
+    method: "GET",
+    data: { search: searchBar.val() },
+    success: function (data) {
+      console.log(data);
+      //delete all children
+      $("#allCardsPage").empty();
+
+      //Display a message if there is no result
+      if (data["message"].length === 0) {
+        $("#allCardsPage").append(
+          '<h3 class="text-danger text-center my-5">Aucune correspondance trouvée.<h3>'
+        );
+      } else {
+        //add card for each line in "data"
+        $.each(data["message"], (key, value) => {
+          $("#allCardsPage").append(
+            '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
+              value["picture"] +
+              '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText"><h5 class="card-title">' +
+              value["title"] +
+              '</h5><p class="card-text">' +
+              value["description"] +
+              '</p><a href="#" class="btn btn-french-lilac">Suivre</a></div></div></div>'
+          );
+        });
+      }
     },
   });
 });

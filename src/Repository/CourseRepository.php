@@ -66,6 +66,15 @@ class CourseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function searchCourses($word)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.title LIKE :val OR c.description LIKE :val')
+            ->setParameter('val', '%' . $word . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Course[] Returns an array of Course objects
     //  */
