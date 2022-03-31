@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formation{% endblock %}
+
+{% block body %}
+    <div class="container-fluid container-lg">
+        <h1 class="text-center my-5">{{course.title}}</h1>
+        <div class="row border">
+            <div class="row-col-12 id="coursesLessonsList">
+                <ul class="nav nav-pills" id="coursesListInline">
+                    {% for section in course.sectionsContained %}
+                        <li class="nav-item"><a href="#" class="nav-link" id="{{course}}_{{section}}">{{section}}</a></li>
+                    {% endfor %}
+                </ul>
+                <ul class="nav nav-pills" id="lessonsListInline">
+                </ul>
+                
+            </div>
+            <div class="row">
+            </div>
+        </div>
+        {#<iframe width="560" height="315" src={{lesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>#}
+    </div>
+{% endblock %}

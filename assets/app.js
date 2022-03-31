@@ -57,7 +57,6 @@ searchBar.on("keyup", () => {
     method: "GET",
     data: { search: searchBar.val() },
     success: function (data) {
-      console.log(data);
       //delete all children
       $("#allCardsPage").empty();
 
@@ -72,14 +71,37 @@ searchBar.on("keyup", () => {
           $("#allCardsPage").append(
             '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
               value["picture"] +
-              '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText"><h5 class="card-title">' +
+              '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText d-flex flex-column justify-content-evenly"><h5 class="card-title text-center">' +
               value["title"] +
               '</h5><p class="card-text">' +
               value["description"] +
-              '</p><a href="#" class="btn btn-french-lilac">Suivre</a></div></div></div>'
+              '</p><a href="#" class="btn btn-french-lilac align-self-end">Suivre</a></div></div></div>'
           );
         });
       }
     },
   });
 });
+
+//display all lessons for a section
+let sectionsList = $("#coursesListInline");
+if (sectionsList.children("a").hasClass("active")) {
+} else {
+  $("#coursesListInline>li>a").first().addClass("active");
+  console.log($("#Formation2_section1").text());
+  $.ajax({
+    url: window.location.href,
+    method: "GET",
+    dataType: "json",
+    data: { section: $("#Formation2_section1").text() },
+    success: function (data) {
+      $.each(data["message"], (key, value) => {
+        $("#lessonsListInline").append(
+          '<li class="nav-item"><a href="#" class="nav-link"">' +
+            value["title"] +
+            "</a></li>"
+        );
+      });
+    },
+  });
+}

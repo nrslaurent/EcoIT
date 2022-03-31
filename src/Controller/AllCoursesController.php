@@ -19,6 +19,7 @@ class AllCoursesController extends AbstractController
 
         //Ajax request to get result of searchBar
         if ($request->isXmlHttpRequest()) {
+            dd($_GET['search']);
             $coursesFind = $courseRepository->searchCourses($_GET['search']);
             $json = [];
             foreach ($coursesFind as $course) {
