@@ -92,20 +92,25 @@ class CourseController extends AbstractController
     /**
      * @Route("/inprogress/{id}", name="app_course_inprogress", methods={"GET"})
      */
-    public function inProgress(Request $request, Course $course, SectionRepository $sectionRepository, LessonRepository $lessonRepository): Response
+    public function inProgress(Request $request, Course $course, SectionRepository $sectionRepository, LessonRepository $lessonRepository, $id): Response
     {
+        $firstLesson = $lessonRepository->findFirstLessonBySection($sectionRepository->findFirstSectionByCourse($course->getId()));
 
         //Ajax request to get lessons list
         if ($request->isXmlHttpRequest()) {
             foreach ($sectionRepository->findAll() as $section) {
-                if ($section->getTitle() === $_GET['section']) {
+                if ($section->getContainedIn()->getTitle() === $course->getTitle() && $section->getTitle() === $_GET['section']) {
                     $lessons = $lessonRepository->findBySection($section->getId());
                 }
             }
             $json = [];
             foreach ($lessons as $lesson) {
                 array_push($json, array(
+                    'id' => $lesson->getId(),
                     'title' => $lesson->getTitle(),
+                    'description' => $lesson->getDescription(),
+                    'video' => $lesson->getVideo(),
+                    'resources' => $lesson->getResources()
                 ));
             }
             return new JsonResponse(
@@ -118,7 +123,8 @@ class CourseController extends AbstractController
         }
 
         return $this->renderForm('course/inProgress.html.twig', [
-            'course' => $course
+            'course' => $course,
+            'lesson' => $firstLesson[0]
         ]);
     }
 }

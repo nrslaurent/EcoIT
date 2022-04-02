@@ -84,24 +84,56 @@ searchBar.on("keyup", () => {
 });
 
 //display all lessons for a section
-let sectionsList = $("#coursesListInline");
-if (sectionsList.children("a").hasClass("active")) {
-} else {
-  $("#coursesListInline>li>a").first().addClass("active");
-  console.log($("#Formation2_section1").text());
+let sectionsList = $("#sectionsListInline");
+//if no section with active class, add active class in the first section
+if (!sectionsList.children("span").hasClass("active")) {
+  $("#sectionsListInline li span").first().addClass("active fw-bolder");
   $.ajax({
     url: window.location.href,
     method: "GET",
     dataType: "json",
-    data: { section: $("#Formation2_section1").text() },
+    data: {
+      section: $(".active").text(),
+    },
     success: function (data) {
       $.each(data["message"], (key, value) => {
         $("#lessonsListInline").append(
-          '<li class="nav-item"><a href="#" class="nav-link"">' +
+          '<li class="mx-2"><span class="french-lilac fs-5">' +
             value["title"] +
-            "</a></li>"
+            "</span></li>"
         );
       });
+      $("#lessonsListInline>li>span").first().addClass("fw-bolder");
     },
   });
 }
+sectionsList.on("click", "span", (event) => {
+  $("span").removeClass("active fw-bolder");
+  $(event.target).addClass("active fw-bolder");
+  $.ajax({
+    url: window.location.href,
+    method: "GET",
+    dataType: "json",
+    data: {
+      course: $("#courseTitle").text(),
+      section: $(".active").text(),
+    },
+    success: function (data) {
+      $("#lessonsListInline").children().remove();
+      $.each(data["message"], (key, value) => {
+        $("#lessonsListInline").append(
+          '<li class="mx-2"><span class="french-lilac fs-5">' +
+            value["title"] +
+            "</span></li>"
+        );
+      });
+      $("#lessonsListInline>li>span").first().addClass("fw-bolder");
+    },
+  });
+});
+
+let lessonsList = $("#lessonsListInline");
+lessonsList.on("click", "span", (event) => {
+  $("#lessonsListInline span").removeClass("active fw-bolder");
+  $(event.target).addClass("active fw-bolder");
+});

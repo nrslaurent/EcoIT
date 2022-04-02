@@ -55,6 +55,16 @@ class LessonRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findFirstLessonBySection($sectionId)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.containedIn = :val')
+            ->setParameter('val', $sectionId)
+            ->orderBy('l.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Lesson[] Returns an array of Lesson objects
     //  */

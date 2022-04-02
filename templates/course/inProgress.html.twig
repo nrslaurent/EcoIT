@@ -4,21 +4,38 @@
 
 {% block body %}
     <div class="container-fluid container-lg">
-        <h1 class="text-center my-5">{{course.title}}</h1>
-        <div class="row border">
-            <div class="row-col-12 id="coursesLessonsList">
-                <ul class="nav nav-pills" id="coursesListInline">
-                    {% for section in course.sectionsContained %}
-                        <li class="nav-item"><a href="#" class="nav-link" id="{{course}}_{{section}}">{{section}}</a></li>
-                    {% endfor %}
-                </ul>
-                <ul class="nav nav-pills" id="lessonsListInline">
-                </ul>
+        <div class="d-flex flex-column">
+            <h1 class="text-center my-5" id="courseTitle">{{course.title}}</h1>
+            <div class="border border-4 border-mellow-apricot">
+                <div class="row-cols-1 bg-mellow-apricot" id="courseLessonsList">
+                    <ul class="nav" id="sectionsListInline">
+                        {% for section in course.sectionsContained %}
+                            <li class="mx-2"><span class="french-lilac fs-4" id="{{course}}_{{section}}">{{section}}</span></li>
+                        {% endfor %}
+                    </ul>
+                    <ul class="nav" id="lessonsListInline">
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-7 row">
+                        <iframe class="" width="736" height="400" src={{lesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="my-5 bg-mellow-apricot">
+                            <ul class="nav">
+                                {% for resource in lesson.resources %}
+                                    <li class="mx-2"><a href="{{ asset('uploads/resources/' ~ ressource) }}" class="french-lilac fs-4">{{resource}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-5 d-flex flex-column justify-content-around">
+                        <p>{{lesson.description}}</p>
+                        <button type="button" class="btn btn-french-lilac w-50 align-self-end">J'ai terminé ce cours</button>
+                    </div>
+                </div>
                 
             </div>
-            <div class="row">
-            </div>
         </div>
-        {#<iframe width="560" height="315" src={{lesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>#}
+        
     </div>
 {% endblock %}

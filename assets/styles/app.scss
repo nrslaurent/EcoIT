@@ -29,6 +29,14 @@ $champagne-pink: rgba(231, 207, 188, 1);
   border-color: $french-lilac;
 }
 
+.border-mellow-apricot {
+  border-color: $mellow-apricot !important;
+}
+
+.bg-mellow-apricot {
+  background-color: $mellow-apricot;
+}
+
 body {
   background-color: $seashell;
   font-family: "Source Sans Pro", sans-serif;
@@ -50,7 +58,7 @@ a {
       font-size: medium;
     }
   }
-  a:link {
+  a {
     text-decoration: none;
   }
 
