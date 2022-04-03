@@ -6,7 +6,7 @@
   <div class="row">
     <div class="d-flex flex-column">
       <p class="my-5"><span class="fs-5 fw-bold">EcoIT</span> est une plateforme d’éducation éco-responsable dont les cours sont dispensés par des experts en accessibilité et en éco-conception web.</p>
-      <p class="fst-italic align-bottom my-3">Nos dernières formations publiées:</p>
+      <p class="fst-italic align-bottom">Nos dernières formations publiées:</p>
     </div>
   </div>
   <div class="row d-flex justify-content-center align-items-center">
@@ -14,7 +14,7 @@
     <div class="col-xs-12 col-lg-4 ">
       <div class="card mx-4 my-5">
         <div class="courseCard">
-          <img src="{{ asset("uploads/images/logo.png") }}" class="card-img-top" alt="course_picture">
+          <img src="{{ asset('uploads/images/'  ~ course.picture) }}" class="card-img-top" alt="course_picture">
           <div class="card-body col courseCardText d-flex flex-column justify-content-evenly">
             <h5 class="card-title text-center">{{course.title}}</h5>
             <p class="card-text">{{course.description}}.</p>

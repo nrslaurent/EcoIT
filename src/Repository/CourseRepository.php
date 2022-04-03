@@ -72,6 +72,7 @@ class CourseRepository extends ServiceEntityRepository
             ->andWhere('c.title LIKE :val OR c.description LIKE :val')
             ->andWhere('c.isPublished = :publishedVal')
             ->setParameters(array('val' => '%' . $word . '%', 'publishedVal' => 1))
+            ->orderBy('c.id', 'DESC')
             ->getQuery()
             ->getResult();
     }

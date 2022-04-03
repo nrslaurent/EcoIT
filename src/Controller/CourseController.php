@@ -7,6 +7,7 @@ use App\Form\CourseType;
 use App\Repository\CourseRepository;
 use App\Repository\LessonRepository;
 use App\Repository\SectionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,25 +93,58 @@ class CourseController extends AbstractController
     /**
      * @Route("/inprogress/{id}", name="app_course_inprogress", methods={"GET"})
      */
-    public function inProgress(Request $request, Course $course, SectionRepository $sectionRepository, LessonRepository $lessonRepository, $id): Response
+    public function inProgress(Request $request, Course $course, SectionRepository $sectionRepository, LessonRepository $lessonRepository, EntityManagerInterface $entityManager): Response
     {
         $firstLesson = $lessonRepository->findFirstLessonBySection($sectionRepository->findFirstSectionByCourse($course->getId()));
 
+        if (!(isset($_GET['finishedLesson']))) {
+            $_GET['finishedLesson'] = "false";
+        }
+
         //Ajax request to get lessons list
         if ($request->isXmlHttpRequest()) {
+            $finishedLesson = false;
             foreach ($sectionRepository->findAll() as $section) {
                 if ($section->getContainedIn()->getTitle() === $course->getTitle() && $section->getTitle() === $_GET['section']) {
                     $lessons = $lessonRepository->findBySection($section->getId());
+                    if ($_GET['finishedLesson'] === "true") {
+                        foreach ($lessons as $lesson) {
+                            if ($lesson->getTitle() === $_GET['lesson']) {
+                                $data = $lesson->getFinishedBy();
+                                array_push($data, $this->getUser()->getId());
+                                $lesson->setFinishedBy($data);
+                                $entityManager->persist($lesson);
+                                $entityManager->flush();
+                                foreach ($lesson->getFinishedBy() as $userId) {
+                                    if ($userId === $this->getUser()->getId()) {
+                                        $finishedLesson = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    foreach ($lessons as $lesson) {
+                        if ($lesson->getTitle() === $_GET['lesson']) {
+                            foreach ($lesson->getFinishedBy() as $userId) {
+                                if ($userId === $this->getUser()->getId()) {
+                                    $finishedLesson = true;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             $json = [];
+
             foreach ($lessons as $lesson) {
                 array_push($json, array(
                     'id' => $lesson->getId(),
                     'title' => $lesson->getTitle(),
                     'description' => $lesson->getDescription(),
                     'video' => $lesson->getVideo(),
-                    'resources' => $lesson->getResources()
+                    'resources' => $lesson->getResources(),
+                    'finishedLesson' => $lesson->getFinishedBy(),
+                    'userId' => $this->getUser()->getId()
                 ));
             }
             return new JsonResponse(

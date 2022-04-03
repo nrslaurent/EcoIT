@@ -8,7 +8,7 @@
     <div class="col-xs-12 col-lg-3">
       <div class="card mx-4 my-5">
         <div class="courseCard">
-          <img src="{{ asset("uploads/images/logo.png") }}" class="card-img-top" alt="course_picture">
+          <img src="{{ asset('uploads/images/'  ~ course.picture) }}" class="card-img-top" alt="course_picture">
           <div class="card-body col courseCardText d-flex flex-column justify-content-evenly">
             <h5 class="card-title text-center">{{course.title}}</h5>
             <p class="card-text">{{course.description}}.</p>
