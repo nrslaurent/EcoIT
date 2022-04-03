@@ -20,6 +20,7 @@ require("bootstrap");
   $('[data-toggle="popover"]').popover();
 });*/
 
+//check if instructor account is valiadated when login
 let loginForm = $("#loginForm");
 loginForm.on("submit", (event) => {
   event.preventDefault();
@@ -50,6 +51,7 @@ loginForm.on("submit", (event) => {
   });
 });
 
+//Display results without reloading page when a guest make a research
 let searchBar = $("#searchBar");
 searchBar.on("keyup", () => {
   $.ajax({
@@ -75,7 +77,9 @@ searchBar.on("keyup", () => {
               value["title"] +
               '</h5><p class="card-text">' +
               value["description"] +
-              '</p><a href="#" class="btn btn-french-lilac align-self-end">Suivre</a></div></div></div>'
+              '</p><a href="/course/inprogress/' +
+              value["id"] +
+              '" class="btn btn-french-lilac align-self-end">Suivre</a></div></div></div>'
           );
         });
       }
@@ -93,7 +97,7 @@ if (!sectionsList.children("span").hasClass("active")) {
     method: "GET",
     dataType: "json",
     data: {
-      section: $(".active").text(),
+      section: $("#sectionsListInline .active").text(),
     },
     success: function (data) {
       $.each(data["message"], (key, value) => {
@@ -103,10 +107,12 @@ if (!sectionsList.children("span").hasClass("active")) {
             "</span></li>"
         );
       });
-      $("#lessonsListInline>li>span").first().addClass("fw-bolder");
+      $("#lessonsListInline li span").first().addClass("active fw-bolder");
     },
   });
 }
+
+//display all lessons when clicking on a section
 sectionsList.on("click", "span", (event) => {
   $("span").removeClass("active fw-bolder");
   $(event.target).addClass("active fw-bolder");
@@ -115,8 +121,7 @@ sectionsList.on("click", "span", (event) => {
     method: "GET",
     dataType: "json",
     data: {
-      course: $("#courseTitle").text(),
-      section: $(".active").text(),
+      section: $(event.target).text(),
     },
     success: function (data) {
       $("#lessonsListInline").children().remove();
@@ -127,13 +132,66 @@ sectionsList.on("click", "span", (event) => {
             "</span></li>"
         );
       });
-      $("#lessonsListInline>li>span").first().addClass("fw-bolder");
+      //add active class in first lesson
+      $("#lessonsListInline li span").first().addClass("active fw-bolder");
+      //display lesson with active class
+      $.each(data["message"], (key, value) => {
+        if ($("#lessonsListInline .active").text() === value["title"]) {
+          $("#lessonInProgress").children().remove();
+          $("#lessonInProgress").append(
+            '<div class="col-7 row"><iframe width="736" height="400" src="' +
+              value["video"] +
+              '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><div class="my-5 bg-mellow-apricot"><ul class="nav">' +
+              $.each(value["resources"], function (index, resource) {
+                '<li class="mx-2"><a href="/uploads/resources/"' +
+                  resource +
+                  '" class="french-lilac fs-4">' +
+                  resource +
+                  "</a></li>";
+              }),
+            '</ul></div></div> <div class="col-5 d-flex flex-column justify-content-around"><p>' +
+              value["description"] +
+              '</p><button type="button" class="btn btn-french-lilac w-50 align-self-end">J\'ai terminé ce cours</button></div>'
+          );
+        }
+      });
     },
   });
 });
 
+//display lesson elements when clicking on its name
 let lessonsList = $("#lessonsListInline");
 lessonsList.on("click", "span", (event) => {
   $("#lessonsListInline span").removeClass("active fw-bolder");
   $(event.target).addClass("active fw-bolder");
+  $.ajax({
+    url: window.location.href,
+    method: "GET",
+    dataType: "json",
+    data: {
+      section: $("#sectionsListInline .active").text(),
+    },
+    success: function (data) {
+      $.each(data["message"], (key, value) => {
+        if ($("#lessonsListInline .active").text() === value["title"]) {
+          $("#lessonInProgress").children().remove();
+          $("#lessonInProgress").append(
+            '<div class="col-7 row"><iframe width="736" height="400" src="' +
+              value["video"] +
+              '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><div class="my-5 bg-mellow-apricot"><ul class="nav">' +
+              $.each(value["resources"], function (index, resource) {
+                '<li class="mx-2"><a href="/uploads/resources/"' +
+                  resource +
+                  '" class="french-lilac fs-4">' +
+                  resource +
+                  "</a></li>";
+              }),
+            '</ul></div></div> <div class="col-5 d-flex flex-column justify-content-around"><p>' +
+              value["description"] +
+              '</p><button type="button" class="btn btn-french-lilac w-50 align-self-end">J\'ai terminé ce cours</button></div>'
+          );
+        }
+      });
+    },
+  });
 });
