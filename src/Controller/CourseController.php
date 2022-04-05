@@ -103,7 +103,6 @@ class CourseController extends AbstractController
 
         //Ajax request to get lessons list
         if ($request->isXmlHttpRequest()) {
-            $finishedLesson = false;
             foreach ($sectionRepository->findAll() as $section) {
                 if ($section->getContainedIn()->getTitle() === $course->getTitle() && $section->getTitle() === $_GET['section']) {
                     $lessons = $lessonRepository->findBySection($section->getId());
@@ -115,22 +114,9 @@ class CourseController extends AbstractController
                                 $lesson->setFinishedBy($data);
                                 $entityManager->persist($lesson);
                                 $entityManager->flush();
-                                foreach ($lesson->getFinishedBy() as $userId) {
-                                    if ($userId === $this->getUser()->getId()) {
-                                        $finishedLesson = true;
-                                    }
-                                }
                             }
                         }
-                    }
-                    foreach ($lessons as $lesson) {
-                        if ($lesson->getTitle() === $_GET['lesson']) {
-                            foreach ($lesson->getFinishedBy() as $userId) {
-                                if ($userId === $this->getUser()->getId()) {
-                                    $finishedLesson = true;
-                                }
-                            }
-                        }
+                        $_GET['finishedLesson'] = false;
                     }
                 }
             }

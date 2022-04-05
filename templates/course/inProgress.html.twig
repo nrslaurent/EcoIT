@@ -30,11 +30,11 @@
                     
                     <div class="col-5 d-flex flex-column justify-content-around">
                         <p>{{lesson.description}}</p>
-                        <div class="d-flex justify-content-end" id="finishedLesson">
+                        <div class="d-flex justify-content-end" id="isFinishedLesson">
                             {%  if app.user.id in lesson.FinishedBy %}
-                            <p class="text-end old-rose fw-bold fs-4">Vous avez terminé ce cours.</p>
+                            <img src="{{asset ('uploads/images/done.png')}}" alt="done">
                             {% else %}
-                            <button type="button" class="btn btn-french-lilac w-50 finishedLessonButton">J'ai terminé ce cours</button>
+                            <button type="button" class="btn btn-french-lilac w-50">J'ai terminé ce cours</button>
                             {% endif %}
                         </div>
                     </div>

@@ -17,6 +17,9 @@ class AllCoursesController extends AbstractController
     public function index(CourseRepository $courseRepository, Request $request): Response
     {
 
+        if (!isset($_GET['search'])) {
+            $_GET['search'] = null;
+        }
         //Ajax request to get result of searchBar
         if ($request->isXmlHttpRequest()) {
             $coursesFind = $courseRepository->searchCourses($_GET['search']);
