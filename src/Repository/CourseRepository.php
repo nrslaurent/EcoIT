@@ -77,6 +77,16 @@ class CourseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getAllCoursesByStudent($studentId)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere(':val MEMBER OF c.chosenBy ')
+            ->setParameter('val', $studentId)
+            ->orderBy('c.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Course[] Returns an array of Course objects
     //  */
