@@ -93,13 +93,24 @@ class CourseController extends AbstractController
     /**
      * @Route("/inprogress/{id}", name="app_course_inprogress", methods={"GET"})
      */
-    public function inProgress(Request $request, Course $course, SectionRepository $sectionRepository, LessonRepository $lessonRepository, EntityManagerInterface $entityManager): Response
+    public function inProgress(Request $request, Course $course, CourseRepository $courseRepository, SectionRepository $sectionRepository, LessonRepository $lessonRepository, EntityManagerInterface $entityManager): Response
     {
-        $firstLesson = $lessonRepository->findFirstLessonBySection($sectionRepository->findFirstSectionByCourse($course->getId()));
+
+        if (!isset($_GET['startCourse'])) {
+            $_GET['startCourse'] = "false";
+        }
+
+        if ($_GET['startCourse'] === "true") {
+            $course->addChosenBy($this->getUser());
+            $entityManager->persist($course);
+            $entityManager->flush();
+        }
 
         if (!(isset($_GET['finishedLesson']))) {
             $_GET['finishedLesson'] = "false";
         }
+
+        $firstLesson = $lessonRepository->findFirstLessonBySection($sectionRepository->findFirstSectionByCourse($course->getId()));
 
         //Ajax request to get lessons list
         if ($request->isXmlHttpRequest()) {

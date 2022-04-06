@@ -7,7 +7,7 @@
       {% else %}
         <a href="{{ path('app_homepage') }}" class="align-self-center mx-5" id="allCoursesNavbar">accueil</a>
         {% if app.request.attributes.get('_route') != "app_all_courses" %}
-        <a href="{{ path('app_all_courses') }}" class="align-self-center" id="allCoursesNavbar">Toutes nos formations</a>
+        <a href="{{ path('app_all_courses') }}" class="align-self-center mx-5" id="allCoursesNavbar">Toutes nos formations</a>
         {% else %}
           <form class="col-6 mx-5 align-self-center">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchBar">
@@ -39,4 +39,7 @@
       {% endif %}
     </ul>
   </nav>
+  {% if app.user %}
+    <p class="text-end">{{app.user.username}}</p>
+  {% endif %}
 </div>  

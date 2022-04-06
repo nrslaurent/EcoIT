@@ -254,161 +254,55 @@ $("body").on("click", "button", () => {
 $("input").on("click", (event) => {
   let myCourses = "false";
   let doneCourses = "false";
+  let allCourses = "false";
   if ($("#myCourses").is(":checked")) {
     myCourses = "true";
   }
   if ($("#doneCourses").is(":checked")) {
     doneCourses = "true";
   }
-
-  if ($("#myCourses").is(":checked")) {
-    $.ajax({
-      url: window.location.href,
-      method: "GET",
-      dataType: "json",
-      data: {
-        myCourses: myCourses,
-        doneCourses: doneCourses,
-      },
-      success: function (data) {
-        //delete all children
-        $("#allCardsPage").empty();
-        //clear search bar
-        $("#searchBar").val("");
-        //Display a message if there is no result
-        if (data["message"].length === 0) {
-          $("#allCardsPage").append(
-            '<h3 class="text-danger text-center my-5">Aucune correspondance trouvée.<h3>'
-          );
-        } else {
-          //add card for each line in "data"
-          $.each(data["message"], (key, value) => {
-            $("#allCardsPage").append(
-              '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
-                value["picture"] +
-                '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText d-flex flex-column justify-content-evenly"><h5 class="card-title text-center">' +
-                value["title"] +
-                '</h5><p class="card-text">' +
-                value["description"] +
-                '</p><a href="/course/inprogress/' +
-                value["id"] +
-                '" class="btn btn-french-lilac align-self-end">Suivre</a></div></div></div>'
-            );
-          });
-        }
-      },
-    });
-  } else {
-    if ($("#doneCourses").is(":checked")) {
-      $.ajax({
-        url: window.location.href,
-        method: "GET",
-        dataType: "json",
-        data: {
-          allCourses: "true",
-        },
-        success: function (data) {
-          //delete all children
-          $("#allCardsPage").empty();
-          //clear search bar
-          $("#searchBar").val("");
-          //Display a message if there is no result
-          if (data["message"].length === 0) {
-            $("#allCardsPage").append(
-              '<h3 class="text-danger text-center my-5">Aucune correspondance trouvée.<h3>'
-            );
-          } else {
-            //add card for each line in "data"
-            $.each(data["message"], (key, value) => {
-              $("#allCardsPage").append(
-                '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
-                  value["picture"] +
-                  '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText d-flex flex-column justify-content-evenly"><h5 class="card-title text-center">' +
-                  value["title"] +
-                  '</h5><p class="card-text">' +
-                  value["description"] +
-                  '</p><a href="/course/inprogress/' +
-                  value["id"] +
-                  '" class="btn btn-french-lilac align-self-end">Suivre</a></div></div></div>'
-              );
-            });
-          }
-        },
-      });
-    } else {
-      $.ajax({
-        url: window.location.href,
-        method: "GET",
-        dataType: "json",
-        data: {
-          allCourses: "true",
-        },
-        success: function (data) {
-          //delete all children
-          $("#allCardsPage").empty();
-          //clear search bar
-          $("#searchBar").val("");
-          //Display a message if there is no result
-          if (data["message"].length === 0) {
-            $("#allCardsPage").append(
-              '<h3 class="text-danger text-center my-5">Aucune correspondance trouvée.<h3>'
-            );
-          } else {
-            //add card for each line in "data"
-            $.each(data["message"], (key, value) => {
-              $("#allCardsPage").append(
-                '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
-                  value["picture"] +
-                  '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText d-flex flex-column justify-content-evenly"><h5 class="card-title text-center">' +
-                  value["title"] +
-                  '</h5><p class="card-text">' +
-                  value["description"] +
-                  '</p><a href="/course/inprogress/' +
-                  value["id"] +
-                  '" class="btn btn-french-lilac align-self-end">Suivre</a></div></div></div>'
-              );
-            });
-          }
-        },
-      });
-    }
+  if (!$("#myCourses").is(":checked") && !$("#doneCourses").is(":checked")) {
+    allCourses = "true";
   }
-  if ($("#doneCourses").is(":checked")) {
-    $.ajax({
-      url: window.location.href,
-      method: "GET",
-      dataType: "json",
-      data: {
-        allCourses: "true",
-      },
-      success: function (data) {
-        //delete all children
-        $("#allCardsPage").empty();
-        //Display a message if there is no result
-        if (data["message"].length === 0) {
+  $.ajax({
+    url: window.location.href,
+    method: "GET",
+    dataType: "json",
+    data: {
+      myCourses: myCourses,
+      doneCourses: doneCourses,
+      allCourses: allCourses,
+    },
+    success: function (data) {
+      //delete all children
+      $("#allCardsPage").empty();
+      //clear search bar
+      if ($("#myCourses").is(":checked") || $("#doneCourses").is(":checked")) {
+        $("#searchBar").val("").prop("disabled", true);
+      } else {
+        $("#searchBar").prop("disabled", false);
+      }
+      //Display a message if there is no result
+      if (data["message"].length === 0) {
+        $("#allCardsPage").append(
+          '<h3 class="text-danger text-center my-5">Aucune correspondance trouvée.<h3>'
+        );
+      } else {
+        //add card for each line in "data"
+        $.each(data["message"], (key, value) => {
           $("#allCardsPage").append(
-            '<h3 class="text-danger text-center my-5">Aucune correspondance trouvée.<h3>'
+            '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
+              value["picture"] +
+              '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText d-flex flex-column justify-content-evenly"><h5 class="card-title text-center">' +
+              value["title"] +
+              '</h5><p class="card-text">' +
+              value["description"] +
+              '</p><a href="/course/inprogress/' +
+              value["id"] +
+              '" class="btn btn-french-lilac align-self-end">Suivre</a></div></div></div>'
           );
-        } else {
-          //clear search bar
-          $("#searchBar").val("");
-          //add card for each line in "data"
-          $.each(data["message"], (key, value) => {
-            $("#allCardsPage").append(
-              '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
-                value["picture"] +
-                '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText d-flex flex-column justify-content-evenly"><h5 class="card-title text-center">' +
-                value["title"] +
-                '</h5><p class="card-text">' +
-                value["description"] +
-                '</p><a href="/course/inprogress/' +
-                value["id"] +
-                '" class="btn btn-french-lilac align-self-end">Suivre</a></div></div></div>'
-            );
-          });
-        }
-      },
-    });
-  } else {
-  }
+        });
+      }
+    },
+  });
 });

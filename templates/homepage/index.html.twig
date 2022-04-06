@@ -5,8 +5,8 @@
 <div class="container-fluid container-lg">
   <div class="row">
     <div class="d-flex flex-column">
-      <p class="my-5"><span class="fs-5 fw-bold">EcoIT</span> est une plateforme d’éducation éco-responsable dont les cours sont dispensés par des experts en accessibilité et en éco-conception web.</p>
-      <p class="fst-italic align-bottom">Nos dernières formations publiées:</p>
+      <p class="my-2"><span class="fs-5 fw-bold">EcoIT</span> est une plateforme d’éducation éco-responsable dont les cours sont dispensés par des experts en accessibilité et en éco-conception web.</p>
+      <p class="fst-italic align-bottom my-2">Nos dernières formations publiées:</p>
     </div>
   </div>
   <div class="row d-flex justify-content-center align-items-center">
@@ -18,7 +18,11 @@
           <div class="card-body col courseCardText d-flex flex-column justify-content-evenly">
             <h5 class="card-title text-center">{{course.title}}</h5>
             <p class="card-text">{{course.description}}.</p>
-            <a href="{{ path('app_course_inprogress',{"id":course.id}) }}" class="btn btn-french-lilac align-self-end">Suivre</a>
+            {% if student != null and student in course.chosenBy %}
+                <a href="{{ path('app_course_inprogress',{"id":course.id}) }}" class="btn btn-french-lilac align-self-end">Continuer</a>
+            {% else %}
+               <a href="{{ path('app_course_inprogress',{"id":course.id, "startCourse" : "true"}) }}" class="btn btn-french-lilac align-self-end">Suivre</a>
+            {% endif %}
           </div>
         </div>
       </div>
