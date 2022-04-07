@@ -50,34 +50,20 @@ class AllCoursesController extends AbstractController
                 }
             }
 
-            if ($_GET['myCourses'] === 'true' && $_GET['doneCourses'] === 'true') {
+            if ($_GET['allCourses'] === 'true') {
                 $json = [];
-                $studentCourses = $courseRepository->getAllCoursesByStudent($this->getUser()->getId());
-                foreach ($studentCourses as $course) {
-                    array_push($json, array(
-                        'id' => $course->getId(),
-                        'title' => $course->getTitle(),
-                        'picture' => $course->getPicture(),
-                        'description' => $course->getDescription(),
-                    ));
-                }
-                $_GET['myCourses'] = "false";
                 $allCourses = $courseRepository->getAllCoursesByDate();
-
-                $_GET['allCourses'] = 'false';
-            } elseif ($_GET['myCourses'] === 'true' && $_GET['doneCourses'] === 'false') {
-                $json = [];
-                $studentCourses = $courseRepository->getAllCoursesByStudent($this->getUser()->getId());
-                foreach ($studentCourses as $course) {
+                foreach ($allCourses as $course) {
                     array_push($json, array(
                         'id' => $course->getId(),
                         'title' => $course->getTitle(),
                         'picture' => $course->getPicture(),
                         'description' => $course->getDescription(),
+                        'isDone' => 'false'
                     ));
                 }
-                $_GET['myCourses'] = "false";
-            } elseif ($_GET['myCourses'] === 'false' && $_GET['doneCourses'] === 'true') {
+                $_GET['allCourses'] = 'false';
+            } elseif ($_GET['myCourses'] === "true" || $_GET['doneCourses'] === "true") {
                 $json = [];
                 $Courses = $courseRepository->getAllCoursesByStudent($this->getUser()->getId());
                 foreach ($Courses as $course) {
@@ -91,30 +77,16 @@ class AllCoursesController extends AbstractController
                         }
                     }
 
-                    if ($isDoneCourse === true) {
-                        array_push($json, array(
-                            'id' => $course->getId(),
-                            'title' => $course->getTitle(),
-                            'picture' => $course->getPicture(),
-                            'description' => $course->getDescription(),
-                        ));
-                    }
+                    array_push($json, array(
+                        'id' => $course->getId(),
+                        'title' => $course->getTitle(),
+                        'picture' => $course->getPicture(),
+                        'description' => $course->getDescription(),
+                        'isDone' => $isDoneCourse,
+                    ));
                 }
+                $_GET['myCourses'] = "false";
                 $_GET['doneCourses'] = "false";
-            } else {
-                if ($_GET['allCourses'] === 'true') {
-                    $json = [];
-                    $allCourses = $courseRepository->getAllCoursesByDate();
-                    foreach ($allCourses as $course) {
-                        array_push($json, array(
-                            'id' => $course->getId(),
-                            'title' => $course->getTitle(),
-                            'picture' => $course->getPicture(),
-                            'description' => $course->getDescription(),
-                        ));
-                    }
-                    $_GET['allCourses'] = 'false';
-                }
             }
 
             return new JsonResponse(

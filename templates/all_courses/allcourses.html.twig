@@ -12,11 +12,7 @@
           <div class="card-body col courseCardText d-flex flex-column justify-content-evenly">
             <h5 class="card-title text-center">{{course.title}}</h5>
             <p class="card-text">{{course.description}}.</p>
-              {%  if  student in course.chosenBy %}
-                <a href="{{ path('app_course_inprogress',{"id":course.id}) }}" class="btn btn-french-lilac align-self-end">Continuer</a>
-              {% else %}
-               <a href="{{ path('app_course_inprogress',{"id":course.id, "startCourse" : "true"}) }}" class="btn btn-french-lilac align-self-end">Suivre</a>
-              {% endif %}
+            <a href="{{ path('app_course_inprogress',{"id":course.id}) }}" class="btn btn-french-lilac align-self-end">Accéder</a>
           </div>
         </div>
       </div>

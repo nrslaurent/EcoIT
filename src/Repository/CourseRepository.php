@@ -61,7 +61,7 @@ class CourseRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->andWhere('c.isPublished = :val')
             ->setParameter('val', 1)
-            ->orderBy('c.publishedAt', 'DESC')
+            ->orderBy('c.title', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -72,7 +72,7 @@ class CourseRepository extends ServiceEntityRepository
             ->andWhere('c.title LIKE :val OR c.description LIKE :val')
             ->andWhere('c.isPublished = :publishedVal')
             ->setParameters(array('val' => '%' . $word . '%', 'publishedVal' => 1))
-            ->orderBy('c.id', 'DESC')
+            ->orderBy('c.title', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -82,7 +82,7 @@ class CourseRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->andWhere(':val MEMBER OF c.chosenBy ')
             ->setParameter('val', $studentId)
-            ->orderBy('c.id', 'DESC')
+            ->orderBy('c.title', 'ASC')
             ->getQuery()
             ->getResult();
     }

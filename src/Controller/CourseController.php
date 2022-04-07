@@ -100,7 +100,7 @@ class CourseController extends AbstractController
             $_GET['startCourse'] = "false";
         }
 
-        if ($_GET['startCourse'] === "true") {
+        if (!$course->getChosenBy()->contains($this->getUser()->getId())) {
             $course->addChosenBy($this->getUser());
             $entityManager->persist($course);
             $entityManager->flush();

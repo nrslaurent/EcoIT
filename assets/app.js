@@ -77,7 +77,7 @@ $("#searchBar").on("keyup", () => {
               value["description"] +
               '</p><a href="/course/inprogress/' +
               value["id"] +
-              '" class="btn btn-french-lilac align-self-end">Suivre</a></div></div></div>'
+              '" class="btn btn-french-lilac align-self-end">Accéder</a></div></div></div>'
           );
         });
       }
@@ -250,7 +250,7 @@ $("body").on("click", "button", () => {
   });
 });
 
-//Display all courses in progress
+//Display all courses in progress or done
 $("input").on("click", (event) => {
   let myCourses = "false";
   let doneCourses = "false";
@@ -282,26 +282,107 @@ $("input").on("click", (event) => {
       } else {
         $("#searchBar").prop("disabled", false);
       }
-      //Display a message if there is no result
-      if (data["message"].length === 0) {
-        $("#allCardsPage").append(
-          '<h3 class="text-danger text-center my-5">Aucune correspondance trouvée.<h3>'
-        );
-      } else {
-        //add card for each line in "data"
-        $.each(data["message"], (key, value) => {
+      if (allCourses === "true") {
+        //Display a message if there is no result
+        if (data["message"].length === 0) {
           $("#allCardsPage").append(
-            '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
-              value["picture"] +
-              '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText d-flex flex-column justify-content-evenly"><h5 class="card-title text-center">' +
-              value["title"] +
-              '</h5><p class="card-text">' +
-              value["description"] +
-              '</p><a href="/course/inprogress/' +
-              value["id"] +
-              '" class="btn btn-french-lilac align-self-end">Suivre</a></div></div></div>'
+            '<h3 class="text-danger text-center my-5">Aucune correspondance trouvée.<h3>'
           );
-        });
+        } else {
+          //add card for each line in "data"
+          $.each(data["message"], (key, value) => {
+            $("#allCardsPage").append(
+              '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
+                value["picture"] +
+                '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText d-flex flex-column justify-content-evenly"><h5 class="card-title text-center">' +
+                value["title"] +
+                '</h5><p class="card-text">' +
+                value["description"] +
+                '</p><a href="/course/inprogress/' +
+                value["id"] +
+                '" class="btn btn-french-lilac align-self-end">Accéder</a></div></div></div>'
+            );
+          });
+        }
+      }
+      if ($("#myCourses").is(":checked") && $("#doneCourses").is(":checked")) {
+        if (data["message"].length === 0) {
+          $("#allCardsPage").append(
+            '<h3 class="text-danger text-center my-5">Aucune correspondance trouvée.<h3>'
+          );
+        } else {
+          //add card for each line in "data"
+          $.each(data["message"], (key, value) => {
+            $("#allCardsPage").append(
+              '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
+                value["picture"] +
+                '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText d-flex flex-column justify-content-evenly"><h5 class="card-title text-center">' +
+                value["title"] +
+                '</h5><p class="card-text">' +
+                value["description"] +
+                '</p><a href="/course/inprogress/' +
+                value["id"] +
+                '" class="btn btn-french-lilac align-self-end">Accéder</a></div></div></div>'
+            );
+          });
+        }
+      } else {
+        if ($("#myCourses").is(":checked")) {
+          let course = [];
+          $.each(data["message"], (key, value) => {
+            if (value["isDone"] === false) {
+              course.push(value);
+            }
+          });
+          if (course.length === 0) {
+            $("#allCardsPage").append(
+              '<h3 class="text-danger text-center my-5">Aucune correspondance trouvée.<h3>'
+            );
+          } else {
+            //add card for each line in "data"
+            $.each(course, (key, value) => {
+              $("#allCardsPage").append(
+                '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
+                  value["picture"] +
+                  '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText d-flex flex-column justify-content-evenly"><h5 class="card-title text-center">' +
+                  value["title"] +
+                  '</h5><p class="card-text">' +
+                  value["description"] +
+                  '</p><a href="/course/inprogress/' +
+                  value["id"] +
+                  '" class="btn btn-french-lilac align-self-end">Accéder</a></div></div></div>'
+              );
+            });
+          }
+        }
+        if ($("#doneCourses").is(":checked")) {
+          let course = [];
+          $.each(data["message"], (key, value) => {
+            if (value["isDone"] === true) {
+              course.push(value);
+            }
+          });
+          if (course.length === 0) {
+            $("#allCardsPage").append(
+              '<h3 class="text-danger text-center my-5">Aucune correspondance trouvée.<h3>'
+            );
+          } else {
+            //add card for each line in "data"
+            $.each(course, (key, value) => {
+              $("#allCardsPage").append(
+                '<div class="col-xs-12 col-lg-3"><div class="card mx-4 my-5"><div class="courseCard"><img src="/uploads/images/' +
+                  value["picture"] +
+                  '") class="card-img-top" alt="course_picture"><div class="card-body col courseCardText d-flex flex-column justify-content-evenly"><h5 class="card-title text-center">' +
+                  value["title"] +
+                  '</h5><p class="card-text">' +
+                  value["description"] +
+                  '</p><a href="/course/inprogress/' +
+                  value["id"] +
+                  '" class="btn btn-french-lilac align-self-end">Accéder</a></div></div></div>'
+              );
+            });
+          }
+        }
       }
     },
   });
