@@ -40,6 +40,7 @@ security:
     - { path: ^/course, roles: [ROLE_INSTRUCTOR] }
     - { path: ^/section, roles: [ROLE_INSTRUCTOR] }
     - { path: ^/lesson, roles: [ROLE_INSTRUCTOR] }
+    - { path: ^/instructor, roles: [ROLE_INSTRUCTOR] }
     # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

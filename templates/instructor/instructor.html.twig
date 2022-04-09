@@ -1,16 +1,21 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Formation{% endblock %}
-
-{% block body %}
-    <div class="container-fluid container-lg">
-        <div class="d-flex flex-column">
-            <h1 class="text-center my-5 active" id="courseTitle">{{course.title}}</h1>
-            <div class="border border-4 border-mellow-apricot">
+{% extends 'base.html.twig' %} {% block title %}Instructeur{% endblock %} {%
+block body %}
+<div class="container-fluid container-lg">
+        <div class="d-flex justify-content-evenly">
+          <div class="col-2 border border-4 border-mellow-apricot mx-2">
+            <ul id="coursesList">
+              {% for course in allCourses %}
+                <li>
+                  <p class="text-start fs-5 mx-2 my-2">{{course.title}}</p>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+            <div class="col-9 border border-4 border-mellow-apricot">
                 <div class="row-cols-1 bg-mellow-apricot" id="courseLessonsList">
                     <ul class="nav" id="sectionsListInline">
                         {% for section in course.sectionsContained %}
-                            <li class="mx-2"><span class="french-lilac fs-4" id="{{course}}_{{section}}">{{section}}</span></li>
+                            <li class="mx-2"><span class="french-lilac fs-4">{{section}}</span></li>
                         {% endfor %}
                     </ul>
                     <ul class="nav" id="lessonsListInline">
@@ -31,15 +36,12 @@
                     <div class="col-5 d-flex flex-column justify-content-around">
                         <p>{{lesson.description}}</p>
                         <div class="d-flex justify-content-end" id="isFinishedLesson">
-                            {%  if app.user.id in lesson.FinishedBy %}
-                            <img src="{{asset ('uploads/images/done.png')}}" alt="done">
-                            {% else %}
-                            <button type="button" class="btn btn-french-lilac w-50">J'ai terminé ce cours</button>
-                            {% endif %}
+                           {# a button will display here for student #} 
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
     </div>
 {% endblock %}

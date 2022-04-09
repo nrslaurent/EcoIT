@@ -141,7 +141,8 @@ class CourseController extends AbstractController
                     'video' => $lesson->getVideo(),
                     'resources' => $lesson->getResources(),
                     'finishedLesson' => $lesson->getFinishedBy(),
-                    'userId' => $this->getUser()->getId()
+                    'userId' => $this->getUser()->getId(),
+                    'isInstructor' => false
                 ));
             }
             return new JsonResponse(
