@@ -1,39 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Course index{% endblock %}
+{% block title %}Formations{% endblock %}
 
 {% block body %}
-    <h1>Course index</h1>
+<div class="container-fluid container-lg">
+    <h1>Mes formations</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>IsPublished</th>
-                <th>PublishedAt</th>
+                <th>Titre</th>
+                <th>Publiée?</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for course in courses %}
             <tr>
-                <td>{{ course.id }}</td>
                 <td>{{ course.title }}</td>
                 <td>{{ course.isPublished ? 'Yes' : 'No' }}</td>
-                <td>{{ course.publishedAt ? course.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_course_show', {'id': course.id}) }}">show</a>
-                    <a href="{{ path('app_course_edit', {'id': course.id}) }}">edit</a>
+                    <a href="{{ path('app_course_edit', {'id': course.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Aucune correspondance trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_course_new') }}">Create new</a>
+    <a href="{{ path('app_course_new') }}" class="btn btn-french-lilac ">Nouvelle formation</a>
+
+    <a href="{{ path('app_instructor', {'id': user.id }) }}" class="btn btn-french-lilac  mx-5">Retour</a>
+</div>
 {% endblock %}

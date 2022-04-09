@@ -22,6 +22,7 @@ class SectionController extends AbstractController
     {
         return $this->render('section/index.html.twig', [
             'sections' => $sectionRepository->findAll(),
+            'user' => $this->getUser()
         ]);
     }
 
@@ -79,7 +80,7 @@ class SectionController extends AbstractController
      */
     public function delete(Request $request, Section $section, SectionRepository $sectionRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$section->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $section->getId(), $request->request->get('_token'))) {
             $sectionRepository->remove($section);
         }
 

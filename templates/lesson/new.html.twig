@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Lesson{% endblock %}
+{% block title %}Nouvelle leçon{% endblock %}
 
 {% block body %}
-    <h1>Create new Lesson</h1>
+    <div class="container-fluid container-lg">
+        <h1>Nouvelle leçon</h1>
 
-    {{ include('lesson/_form.html.twig') }}
+        {{ include('lesson/_form.html.twig') }}
 
-    <a href="{{ path('app_lesson_index') }}">back to list</a>
+        <a href="{{ path('app_lesson_index') }}" class="btn btn-french-lilac my-2">Retour</a>
+    </div>
 {% endblock %}

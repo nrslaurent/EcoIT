@@ -52,7 +52,7 @@ class RegistrationController extends AbstractController
 
                 $pictureFile = $form->get('picture')->getData();
                 if ($pictureFile) {
-                    $pictureFileName = $fileUploader->upload($pictureFile);
+                    $pictureFileName = $fileUploader->uploadFile($pictureFile);
                     $user->setPicture($pictureFileName);
                 }
             }

@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %} {% block title %}Instructeur{% endblock %} {%
 block body %}
 <div class="container-fluid container-lg">
-        <div class="d-flex justify-content-evenly">
-          <div class="col-2 border border-4 border-mellow-apricot mx-2">
+        <div class="row d-flex justify-content-evenly">
+          <div class="col-2 border border-4 border-end-0 border-mellow-apricot">
             <ul id="coursesList">
               {% for course in allCourses %}
                 <li>
@@ -11,8 +11,8 @@ block body %}
               {% endfor %}
             </ul>
           </div>
-            <div class="col-9 border border-4 border-mellow-apricot">
-                <div class="row-cols-1 bg-mellow-apricot" id="courseLessonsList">
+            <div class="col-10 border border-4 border-mellow-apricot">
+                <div class="row bg-mellow-apricot" id="courseLessonsList">
                     <ul class="nav" id="sectionsListInline">
                         {% for section in course.sectionsContained %}
                             <li class="mx-2"><span class="french-lilac fs-4">{{section}}</span></li>
@@ -41,6 +41,11 @@ block body %}
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row d-flex justify-content-around my-5">
+            <a href="{{ path('app_course_index') }}" class="btn btn-french-lilac col-3">Gérer les formations</a>
+            <a href="{{ path('app_section_index') }}" class="btn btn-french-lilac col-3">Gérer les sections</a>
+            <a href="{{ path('app_lesson_index') }}" class="btn btn-french-lilac col-3">Gérer les leçons</a>
         </div>
         
     </div>

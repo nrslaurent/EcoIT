@@ -48,16 +48,39 @@ class InstructorController extends AbstractController
                     $course = $element;
                 }
             }
-            $allSections = $sectionRepository->findBy(array('containedIn' => $course), array('id' => 'ASC'));
 
+            $allSections = $sectionRepository->findBy(array('containedIn' => $course), array('id' => 'ASC'));
+            $json = [];
             if ($_GET['isCourseChanged'] === "true") {
-                $json = [];
+                $sectionsArray = [];
                 foreach ($allSections as $section) {
-                    array_push($json, array(
+                    array_push($sectionsArray, array(
                         'section' => $section->getTitle()
                     ));
                 }
                 $_GET['isCourseChanged'] = "false";
+                array_push($json, $sectionsArray);
+
+                $lessonsArray = [];
+                foreach ($allSections as $section) {
+                    if ($section->getTitle() === $_GET['section']) {
+                        $lessons = $lessonRepository->findBySection($section->getId());
+                        foreach ($lessons as $lesson) {
+                            array_push($lessonsArray, array(
+                                'section' => $section->getTitle(),
+                                'id' => $lesson->getId(),
+                                'title' => $lesson->getTitle(),
+                                'description' => $lesson->getDescription(),
+                                'video' => $lesson->getVideo(),
+                                'resources' => $lesson->getResources(),
+                                'userId' => $this->getUser()->getId(),
+                                'finishedLesson' => "",
+                                'isInstructor' => true
+                            ));
+                        }
+                    }
+                }
+                array_push($json, $lessonsArray);
             } else {
                 $json = [];
                 foreach ($allSections as $section) {
@@ -79,7 +102,6 @@ class InstructorController extends AbstractController
                     }
                 }
             }
-
 
             return new JsonResponse(
                 array(
