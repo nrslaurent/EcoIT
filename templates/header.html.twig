@@ -1,9 +1,14 @@
 <div class="container-fluid container-lg">
   <nav class="row navbar">
     <div class="d-flex col-7">
-      <img src="{{ asset("uploads/images/logo.png") }}" alt="logo" id="logo">
+      <img src="{{ asset("uploads/images/logo.png") }}" alt="logo" style="max-width:80px" id="logo">
       {% if app.request.attributes.get('_route') == "app_homepage" %}
       <a href="{{ path('app_all_courses') }}" class="align-self-center mx-5" id="allCoursesNavbar">Toutes nos formations</a>
+      {% if student.roles is defined and student.roles is not null %}
+          {% if "ROLE_INSTRUCTOR" in student.roles %}
+          <a href="{{ path('app_instructor',{'id': student.id}) }}" class="align-self-center mx-5" id="allCoursesNavbar">Gérer mes formations</a>
+          {% endif %}
+        {% endif %}
       {% else %}
         <a href="{{ path('app_homepage') }}" class="align-self-center mx-5" id="allCoursesNavbar">accueil</a>
         {% if app.request.attributes.get('_route') != "app_all_courses" %}

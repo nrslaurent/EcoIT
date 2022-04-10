@@ -173,11 +173,6 @@ class Course
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->title;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -200,5 +195,10 @@ class Course
         $this->picture = $picture;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 }

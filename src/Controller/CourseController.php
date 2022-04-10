@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploader;
+use DateTimeImmutable;
 
 /**
  * @Route("/course")
@@ -33,13 +35,23 @@ class CourseController extends AbstractController
     /**
      * @Route("/new", name="app_course_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, CourseRepository $courseRepository): Response
+    public function new(Request $request, CourseRepository $courseRepository, FileUploader $FileUploader): Response
     {
         $course = new Course();
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $course->setCreateBy($this->getUser());
+            if ($form->get('isPublished')->getData()) {
+                $course->setPublishedAt(new DateTimeImmutable());
+            }
+            //add picture path
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                $pictureFileName = $FileUploader->uploadFile($pictureFile);
+                $course->setPicture($pictureFileName);
+            }
             $courseRepository->add($course);
             return $this->redirectToRoute('app_course_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -69,6 +81,9 @@ class CourseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('isPublished')->getData()) {
+                $course->setPublishedAt(new DateTimeImmutable());
+            }
             $courseRepository->add($course);
             return $this->redirectToRoute('app_course_index', [], Response::HTTP_SEE_OTHER);
         }

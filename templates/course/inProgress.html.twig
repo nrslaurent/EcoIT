@@ -14,15 +14,16 @@
                         {% endfor %}
                     </ul>
                     <ul class="nav" id="lessonsListInline">
+                        {# add lessons with JavaScript #}
                     </ul>
                 </div>
                 <div class="row" id="lessonInProgress">
                     <div class="col-7 row">
                         <iframe class="" width="736" height="400" src={{lesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <div class="my-5 bg-mellow-apricot">
-                            <ul class="nav">
+                        <div class="my-5 mx-5">
+                            <ul class="nav" id="resourcesList">
                                 {% for resource in lesson.resources %}
-                                    <li class="mx-2"><a href="{{ asset('uploads/resources/' ~ ressource) }}" class="french-lilac fs-4">{{resource}}</a></li>
+                                    <li class="mx-4"><a href="{{ asset('uploads/resources/' ~ resource) }}" class="french-lilac fs-4"><img src="{{ asset('uploads/images/file.ico') }}" alt="resource"></a></li>
                                 {% endfor %}
                             </ul>
                         </div>

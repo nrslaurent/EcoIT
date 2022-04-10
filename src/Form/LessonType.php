@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\File;
 
 class LessonType extends AbstractType
@@ -35,14 +36,19 @@ class LessonType extends AbstractType
                     'class' => 'old-rose ',
                 ],
                 'mapped' => false,
+
                 'constraints' => [
-                    new File([
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                            'application/pdf'
-                        ],
-                        'mimeTypesMessage' => 'Le fichier doit être au format pdf, jpeg, jpg ou png.',
+                    new All([
+                        'constraints' => [
+                            new File([
+                                'mimeTypes' => [
+                                    'image/jpeg',
+                                    'image/png',
+                                    'application/pdf'
+                                ],
+                                'mimeTypesMessage' => 'Le fichier doit être au format pdf, jpeg, jpg ou png.',
+                            ])
+                        ]
                     ])
                 ],
             ])

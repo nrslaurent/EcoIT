@@ -105,47 +105,55 @@ $("#coursesList").on("click", "p", (event) => {
       isCourseChanged: "true",
     },
     success: function (data) {
-      $("#sectionsListInline").children().remove();
-      $.each(data["message"][0], (key, value) => {
-        $("#sectionsListInline").append(
-          '<li class="mx-2"><span class="french-lilac fs-4">' +
-            value["section"] +
-            "</span></li>"
-        );
-      });
-      //add active class in first section
-      $("#sectionsListInline li span").first().addClass("active fw-bolder");
-      //add all lessons for active class
-      $("#lessonsListInline").children().remove();
-      $.each(data["message"][1], (key, value) => {
-        $("#lessonsListInline").append(
-          '<li class="mx-2"><span class="french-lilac fs-5">' +
-            value["title"] +
-            "</span></li>"
-        );
-        //add active class in first lesson
-        $("#lessonsListInline li span").first().addClass("active fw-bolder");
-        //display lesson with active class
-        if ($("#lessonsListInline .active").text() === value["title"]) {
-          $("#lessonInProgress").children().remove();
-          $("#lessonInProgress").append(
-            '<div class="col-7 row"><iframe width="736" height="400" src="' +
-              value["video"] +
-              '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><div class="my-5 bg-mellow-apricot"><ul class="nav">' +
-              $.each(value["resources"], function (index, resource) {
-                '<li class="mx-2"><a href="/uploads/resources/"' +
-                  resource +
-                  '" class="french-lilac fs-4">' +
-                  resource +
-                  "</a></li>";
-              }),
-            '</ul></div></div><div class="col-5 d-flex flex-column justify-content-around"><p>' +
-              value["description"] +
-              "</p>"
+      if (data["message"][0].length > 0) {
+        $("#sectionsListInline").children().remove();
+        $.each(data["message"][0], (key, value) => {
+          $("#sectionsListInline").append(
+            '<li class="mx-2"><span class="french-lilac fs-4">' +
+              value["section"] +
+              "</span></li>"
           );
-        }
-      });
-      $("#lessonsListInline li span").first().addClass("active fw-bolder");
+        });
+        //add active class in first section
+        $("#sectionsListInline li span").first().addClass("active fw-bolder");
+        //add all lessons for active class
+        $("#lessonsListInline").children().remove();
+        $.each(data["message"][1], (key, value) => {
+          $("#lessonsListInline").append(
+            '<li class="mx-2"><span class="french-lilac fs-5">' +
+              value["title"] +
+              "</span></li>"
+          );
+          //add active class in first lesson
+          $("#lessonsListInline li span").first().addClass("active fw-bolder");
+          //display lesson with active class
+          if ($("#lessonsListInline .active").text() === value["title"]) {
+            $("#lessonInProgress").children().remove();
+            $("#lessonInProgress").append(
+              '<div class="col-7 row"><iframe width="736" height="400" src="' +
+                value["video"] +
+                '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><div class="my-5 mx-5"><ul class="nav" id="resourcesList"></ul></div></div>'
+            );
+            $.each(value["resources"], function (index, resource) {
+              $("#resourcesList").append(
+                '<li class="mx-4"><a href="/uploads/resources/' +
+                  resource +
+                  '" class="french-lilac fs-4"><img src="/uploads/images/file.ico" alt="resource"></a></li>'
+              );
+            });
+            $("#lessonInProgress").append(
+              '<div class="col-5 d-flex flex-column justify-content-around"><p>' +
+                value["description"] +
+                '</p><div class="d-flex justify-content-end" id="isFinishedLesson">'
+            );
+          }
+        });
+        $("#lessonsListInline li span").first().addClass("active fw-bolder");
+      } else {
+        $("#sectionsListInline").children().remove();
+        $("#lessonsListInline").children().remove();
+        $("#lessonInProgress").children().remove();
+      }
     },
   });
 });
@@ -217,15 +225,17 @@ $("#sectionsListInline").on("click", "span", (event) => {
           $("#lessonInProgress").append(
             '<div class="col-7 row"><iframe width="736" height="400" src="' +
               value["video"] +
-              '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><div class="my-5 bg-mellow-apricot"><ul class="nav">' +
-              $.each(value["resources"], function (index, resource) {
-                '<li class="mx-2"><a href="/uploads/resources/"' +
-                  resource +
-                  '" class="french-lilac fs-4">' +
-                  resource +
-                  "</a></li>";
-              }),
-            '</ul></div></div><div class="col-5 d-flex flex-column justify-content-around"><p>' +
+              '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><div class="my-5 mx-5"><ul class="nav" id="resourcesList"></ul></div>'
+          );
+          $.each(value["resources"], function (index, resource) {
+            $("#resourcesList").append(
+              '<li class="mx-4"><a href="/uploads/resources/' +
+                resource +
+                '" class="french-lilac fs-4"><img src="/uploads/images/file.ico" alt="resource"></a></li>'
+            );
+          });
+          $("#lessonInProgress").append(
+            '<div class="col-5 d-flex flex-column justify-content-around"><p>' +
               value["description"] +
               '</p><div class="d-flex justify-content-end" id="isFinishedLesson">'
           );
@@ -274,15 +284,17 @@ $("#lessonsListInline").on("click", "span", (event) => {
           $("#lessonInProgress").append(
             '<div class="col-7 row"><iframe width="736" height="400" src="' +
               value["video"] +
-              '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><div class="my-5 bg-mellow-apricot"><ul class="nav">' +
-              $.each(value["resources"], function (index, resource) {
-                '<li class="mx-2"><a href="/uploads/resources/"' +
-                  resource +
-                  '" class="french-lilac fs-4">' +
-                  resource +
-                  "</a></li>";
-              }),
-            '</ul></div></div><div class="col-5 d-flex flex-column justify-content-around"><p>' +
+              '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><div class="my-5 mx-5"><ul class="nav" id="resourcesList"></ul></div></div>'
+          );
+          $.each(value["resources"], function (index, resource) {
+            $("#resourcesList").append(
+              '<li class="mx-4"><a href="/uploads/resources/' +
+                resource +
+                '" class="french-lilac fs-4"><img src="/uploads/images/file.ico" alt="resource"></a></li>'
+            );
+          });
+          $("#lessonInProgress").append(
+            '<div class="col-5 d-flex flex-column justify-content-around"><p>' +
               value["description"] +
               '</p><div class="d-flex justify-content-end" id="isFinishedLesson">'
           );

@@ -22,18 +22,20 @@ class InstructorController extends AbstractController
     {
 
         $allCourses = $courseRepository->getAllCoursesByInstructor($this->getUser()->getId());
+        $firstSection = $sectionRepository->findFirstSectionByCourse($allCourses[0]->getId());
         $firstLesson = $lessonRepository->findFirstLessonBySection($sectionRepository->findFirstSectionByCourse($allCourses[0]->getId()));
 
+
         if (!isset($_GET['course'])) {
-            $_GET['course'] = 'Formation2';
+            $_GET['course'] = $allCourses[0]->getTitle();
         }
 
         if (!isset($_GET['section'])) {
-            $_GET['section'] = 'section1';
+            $_GET['section'] = $firstSection[0]->getTitle();
         }
 
         if (!isset($_GET['lesson'])) {
-            $_GET['lesson'] = null;
+            $_GET['lesson'] = $firstLesson[0]->getTitle();
         }
 
         if (!isset($_GET['isCourseChanged'])) {

@@ -9,13 +9,13 @@
       <p class="fst-italic align-bottom my-2">Nos dernières formations publiées:</p>
     </div>
   </div>
-  <div class="row d-flex justify-content-center align-items-center">
+  <div class="row d-flex justify-content-evenly align-items-center">
   {% for course in courses %}
-    <div class="col-xs-12 col-lg-4 ">
+    <div class="col-xs-12 col-lg-3">
       <div class="card mx-4 my-5">
         <div class="courseCard">
-          <img src="{{ asset('uploads/images/'  ~ course.picture) }}" class="card-img-top" alt="course_picture">
-          <div class="card-body col courseCardText d-flex flex-column justify-content-evenly">
+          <img src="{{ asset('uploads/images/'  ~ course.picture) }}" class="card-img-top vh-20 mb-5" alt="course_picture">
+          <div class="card-body col courseCardText d-flex flex-column justify-content-between vh-30">
             <h5 class="card-title text-center">{{course.title}}</h5>
             <p class="card-text">{{course.description}}.</p>
             <a href="{{ path('app_course_inprogress',{"id":course.id}) }}" class="btn btn-french-lilac align-self-end">Accéder</a>

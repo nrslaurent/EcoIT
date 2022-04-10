@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Lesson;
 use App\Form\LessonType;
 use App\Repository\LessonRepository;
+use App\Service\ResourcesUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,13 +30,23 @@ class LessonController extends AbstractController
     /**
      * @Route("/new", name="app_lesson_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, LessonRepository $lessonRepository): Response
+    public function new(Request $request, LessonRepository $lessonRepository, ResourcesUploader $ResourcesUploader): Response
     {
         $lesson = new Lesson();
         $form = $this->createForm(LessonType::class, $lesson);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $lesson->setCreatedBy($this->getUser());
+            //add resources path
+            $resourcesFile = $form->get('resources')->getData();
+            $resourcesFilePath = [];
+            if ($resourcesFile) {
+                foreach ($resourcesFile as $resource) {
+                    array_push($resourcesFilePath, $ResourcesUploader->uploadFile($resource));
+                }
+                $lesson->setResources($resourcesFilePath);
+            }
             $lessonRepository->add($lesson);
             return $this->redirectToRoute('app_lesson_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -59,12 +70,21 @@ class LessonController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_lesson_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Lesson $lesson, LessonRepository $lessonRepository): Response
+    public function edit(Request $request, Lesson $lesson, LessonRepository $lessonRepository, ResourcesUploader $ResourcesUploader): Response
     {
         $form = $this->createForm(LessonType::class, $lesson);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //add resources path
+            $resourcesFile = $form->get('resources')->getData();
+            $resourcesFilePath = [];
+            if ($resourcesFile) {
+                foreach ($resourcesFile as $resource) {
+                    array_push($resourcesFilePath, $ResourcesUploader->uploadFile($resource));
+                }
+                $lesson->setResources($resourcesFilePath);
+            }
             $lessonRepository->add($lesson);
             return $this->redirectToRoute('app_lesson_index', [], Response::HTTP_SEE_OTHER);
         }

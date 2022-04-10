@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Course;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,7 +23,10 @@ class CourseType extends AbstractType
                 'label' => 'Titre'
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description'
+                'label' => 'Description',
+                'attr' => [
+                    'maxlength' => 255
+                ],
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Image',
@@ -38,6 +43,14 @@ class CourseType extends AbstractType
                         'mimeTypesMessage' => 'Le fichier doit être au format jpeg, jpg ou png.',
                     ])
                 ],
+            ])
+            ->add('isPublished', ChoiceType::class, [
+                'choices'  => [
+                    'Non' => false,
+                    'Oui' => true,
+
+                ],
+                'label' => 'Publier'
             ]);
     }
 

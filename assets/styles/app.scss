@@ -37,6 +37,13 @@ $champagne-pink: rgba(231, 207, 188, 1);
   background-color: $mellow-apricot;
 }
 
+$values : (10,20,25,30,40,50,75);
+@each $value in $values {
+  .vh-#{$value}{
+    height: #{$value}vh;
+  }
+}
+
 body {
   background-color: $seashell;
   font-family: "Source Sans Pro", sans-serif;
