@@ -16,7 +16,7 @@ const $ = require("jquery");
 // the bootstrap module doesn't export/return anything
 require("bootstrap");
 
-//check if instructor account is valiadated when login
+//check if instructor account is validated when login
 $("#loginForm").on("submit", (event) => {
   event.preventDefault();
   //fetch email and validation status for all instructors
@@ -34,12 +34,10 @@ $("#loginForm").on("submit", (event) => {
             alert(
               "Votre compte n'a pas encore été validé, vous ne pouvez pas vous connecter pour le moment."
             );
-            return false;
+            window.location.href = "/logout";
           } else {
             event.currentTarget.submit();
           }
-        } else {
-          event.currentTarget.submit();
         }
       });
     },
