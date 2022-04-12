@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Lesson;
 use App\Form\LessonType;
+use App\Repository\CourseRepository;
 use App\Repository\LessonRepository;
 use App\Service\ResourcesUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,7 @@ class LessonController extends AbstractController
     public function index(LessonRepository $lessonRepository): Response
     {
         return $this->render('lesson/index.html.twig', [
-            'lessons' => $lessonRepository->findAll(),
+            'lessons' => $lessonRepository->findby(array('createdBy' => $this->getUser())),
             'user' => $this->getUser()
         ]);
     }
@@ -60,39 +61,46 @@ class LessonController extends AbstractController
     /**
      * @Route("/{id}", name="app_lesson_show", methods={"GET"})
      */
-    public function show(Lesson $lesson): Response
+    /*public function show(Lesson $lesson): Response
     {
         return $this->render('lesson/show.html.twig', [
             'lesson' => $lesson,
         ]);
-    }
+    }*/
 
     /**
      * @Route("/{id}/edit", name="app_lesson_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Lesson $lesson, LessonRepository $lessonRepository, ResourcesUploader $ResourcesUploader): Response
+    public function edit(Request $request, Lesson $lesson, LessonRepository $lessonRepository, CourseRepository $courseRepository, ResourcesUploader $ResourcesUploader): Response
     {
-        $form = $this->createForm(LessonType::class, $lesson);
-        $form->handleRequest($request);
+        if ($lesson->getCreatedBy() === $this->getUser()) {
+            $form = $this->createForm(LessonType::class, $lesson);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            //add resources path
-            $resourcesFile = $form->get('resources')->getData();
-            $resourcesFilePath = [];
-            if ($resourcesFile) {
-                foreach ($resourcesFile as $resource) {
-                    array_push($resourcesFilePath, $ResourcesUploader->uploadFile($resource));
+            if ($form->isSubmitted() && $form->isValid()) {
+                //add resources path
+                $resourcesFile = $form->get('resources')->getData();
+                $resourcesFilePath = [];
+                if ($resourcesFile) {
+                    foreach ($resourcesFile as $resource) {
+                        array_push($resourcesFilePath, $ResourcesUploader->uploadFile($resource));
+                    }
+                    $lesson->setResources($resourcesFilePath);
                 }
-                $lesson->setResources($resourcesFilePath);
+                $lessonRepository->add($lesson);
+                return $this->redirectToRoute('app_lesson_index', [], Response::HTTP_SEE_OTHER);
             }
-            $lessonRepository->add($lesson);
-            return $this->redirectToRoute('app_lesson_index', [], Response::HTTP_SEE_OTHER);
-        }
 
-        return $this->renderForm('lesson/edit.html.twig', [
-            'lesson' => $lesson,
-            'form' => $form,
-        ]);
+            return $this->renderForm('lesson/edit.html.twig', [
+                'lesson' => $lesson,
+                'form' => $form,
+            ]);
+        } else {
+            return $this->render('homepage/index.html.twig', [
+                'courses' => $courseRepository->getLastPublishedCourses(),
+                'student' => $this->getUser()
+            ]);
+        }
     }
 
     /**

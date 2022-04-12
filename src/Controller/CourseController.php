@@ -27,7 +27,7 @@ class CourseController extends AbstractController
     public function index(CourseRepository $courseRepository): Response
     {
         return $this->render('course/index.html.twig', [
-            'courses' => $courseRepository->findAll(),
+            'courses' => $courseRepository->findby(array('createBy' => $this->getUser())),
             'user' => $this->getUser()
         ]);
     }
@@ -65,33 +65,40 @@ class CourseController extends AbstractController
     /**
      * @Route("/{id}", name="app_course_show", methods={"GET"})
      */
-    public function show(Course $course): Response
+    /*public function show(Course $course): Response
     {
         return $this->render('course/show.html.twig', [
             'course' => $course,
         ]);
-    }
+    }*/
 
     /**
      * @Route("/{id}/edit", name="app_course_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Course $course, CourseRepository $courseRepository): Response
     {
-        $form = $this->createForm(CourseType::class, $course);
-        $form->handleRequest($request);
+        if ($course->getCreateBy() === $this->getUser()) {
+            $form = $this->createForm(CourseType::class, $course);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('isPublished')->getData()) {
-                $course->setPublishedAt(new DateTimeImmutable());
+            if ($form->isSubmitted() && $form->isValid()) {
+                if ($form->get('isPublished')->getData()) {
+                    $course->setPublishedAt(new DateTimeImmutable());
+                }
+                $courseRepository->add($course);
+                return $this->redirectToRoute('app_course_index', [], Response::HTTP_SEE_OTHER);
             }
-            $courseRepository->add($course);
-            return $this->redirectToRoute('app_course_index', [], Response::HTTP_SEE_OTHER);
-        }
 
-        return $this->renderForm('course/edit.html.twig', [
-            'course' => $course,
-            'form' => $form,
-        ]);
+            return $this->renderForm('course/edit.html.twig', [
+                'course' => $course,
+                'form' => $form,
+            ]);
+        } else {
+            return $this->render('homepage/index.html.twig', [
+                'courses' => $courseRepository->getLastPublishedCourses(),
+                'student' => $this->getUser()
+            ]);
+        }
     }
 
     /**

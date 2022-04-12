@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Section;
 use App\Form\SectionType;
+use App\Repository\CourseRepository;
 use App\Repository\SectionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,7 @@ class SectionController extends AbstractController
     public function index(SectionRepository $sectionRepository): Response
     {
         return $this->render('section/index.html.twig', [
-            'sections' => $sectionRepository->findAll(),
+            'sections' => $sectionRepository->findby(array('createdBy' => $this->getUser())),
             'user' => $this->getUser()
         ]);
     }
@@ -36,6 +37,7 @@ class SectionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $section->setCreatedBy($this->getUser());
             $sectionRepository->add($section);
             return $this->redirectToRoute('app_section_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -49,30 +51,37 @@ class SectionController extends AbstractController
     /**
      * @Route("/{id}", name="app_section_show", methods={"GET"})
      */
-    public function show(Section $section): Response
+    /*public function show(Section $section): Response
     {
         return $this->render('section/show.html.twig', [
             'section' => $section,
         ]);
-    }
+    }*/
 
     /**
      * @Route("/{id}/edit", name="app_section_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Section $section, SectionRepository $sectionRepository): Response
+    public function edit(Request $request, Section $section, SectionRepository $sectionRepository, CourseRepository $courseRepository): Response
     {
-        $form = $this->createForm(SectionType::class, $section);
-        $form->handleRequest($request);
+        if ($section->getCreatedBy() === $this->getUser()) {
+            $form = $this->createForm(SectionType::class, $section);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $sectionRepository->add($section);
-            return $this->redirectToRoute('app_section_index', [], Response::HTTP_SEE_OTHER);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $sectionRepository->add($section);
+                return $this->redirectToRoute('app_section_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+            return $this->renderForm('section/edit.html.twig', [
+                'section' => $section,
+                'form' => $form,
+            ]);
+        } else {
+            return $this->render('homepage/index.html.twig', [
+                'courses' => $courseRepository->getLastPublishedCourses(),
+                'student' => $this->getUser()
+            ]);
         }
-
-        return $this->renderForm('section/edit.html.twig', [
-            'section' => $section,
-            'form' => $form,
-        ]);
     }
 
     /**

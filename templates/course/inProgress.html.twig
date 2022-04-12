@@ -11,7 +11,7 @@
                     <ul class="nav" id="sectionsListInline">
                     
                         {% for section in sections %}
-                            <li class="nav-item mx-2"><a href="{{ path('app_course_inprogress',{'id':course.id, 'section':section.id, 'lesson': section.lessonsContained[0].id}) }}" class="nav-link french-lilac fs-4 {{ app.request.get('section') == section.id ? "fw-bolder" }}">{{section}}</a></li>
+                            <li class="nav-item mx-2"><a href="{{ path('app_course_inprogress',{'id':course.id, 'section':section.id, 'lesson': section.lessonsContained[0].id}) }}" class="nav-link french-lilac fs-5 {{ app.request.get('section') == section.id ? "fw-bolder" }}">{{section}}</a></li>
                         {% endfor %}
                     </ul>
                     <ul class="nav" id="lessonsListInline">
