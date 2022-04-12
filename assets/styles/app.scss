@@ -119,14 +119,23 @@ span:hover {
   .courseCard {
     display: flex;
     flex-direction: row;
+    .card-body {
+      justify-content:space-around !important;
+    }
+    .card-title {
+      font-size: x-large;
+    }
   }
 
   .courseCardText {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-size:larger;
     .btn {
-      width: 20%;
+      width: 40%;
+      font-size:larger;
     }
   }
+
 }

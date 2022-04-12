@@ -5,24 +5,28 @@
 {% block body %}
     <div class="container-fluid container-lg">
         <div class="d-flex flex-column">
-            <h1 class="text-center my-5 active" id="courseTitle">{{course.title}}</h1>
+            <h1 class="text-center my-2 active">{{course.title}}</h1>
             <div class="border border-4 border-mellow-apricot">
-                <div class="row-cols-1 bg-mellow-apricot" id="courseLessonsList">
+                <div class="row-cols-1 bg-mellow-apricot">
                     <ul class="nav" id="sectionsListInline">
-                        {% for section in course.sectionsContained %}
-                            <li class="mx-2"><span class="french-lilac fs-4" id="{{course}}_{{section}}">{{section}}</span></li>
+                    
+                        {% for section in sections %}
+                            <li class="nav-item mx-2"><a href="{{ path('app_course_inprogress',{'id':course.id, 'section':section.id, 'lesson': section.lessonsContained[0].id}) }}" class="nav-link french-lilac fs-4 {{ app.request.get('section') == section.id ? "fw-bolder" }}">{{section}}</a></li>
                         {% endfor %}
                     </ul>
                     <ul class="nav" id="lessonsListInline">
                         {# add lessons with JavaScript #}
+                        {% for lesson in lessons %}
+                            <li class="nav-item mx-2"><a href="{{ path('app_course_inprogress',{'id':course.id, 'section':lesson.containedIn.id, 'lesson' : lesson.id}) }}" class="nav-link french-lilac fs-5 {{ app.request.get('lesson') == lesson.id ? "fw-bolder" }}">{{lesson}}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
-                <div class="row" id="lessonInProgress">
+                <div class="row">
                     <div class="col-7 row">
-                        <iframe class="" width="736" height="400" src={{lesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="736" height="400" src={{CurrentLesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         <div class="my-5 mx-5">
                             <ul class="nav" id="resourcesList">
-                                {% for resource in lesson.resources %}
+                                {% for resource in CurrentLesson.resources %}
                                     <li class="mx-4"><a href="{{ asset('uploads/resources/' ~ resource) }}" class="french-lilac fs-4"><img src="{{ asset('uploads/images/file.ico') }}" alt="resource"></a></li>
                                 {% endfor %}
                             </ul>
@@ -30,9 +34,9 @@
                     </div>
                     
                     <div class="col-5 d-flex flex-column justify-content-around">
-                        <p>{{lesson.description}}</p>
+                        <p>{{CurrentLesson.description}}</p>
                         <div class="d-flex justify-content-end" id="isFinishedLesson">
-                            {%  if app.user.id in lesson.FinishedBy %}
+                            {%  if app.user.id in CurrentLesson.FinishedBy %}
                             <img src="{{asset ('uploads/images/done.png')}}" alt="done">
                             {% else %}
                             <button type="button" class="btn btn-french-lilac w-50">J'ai terminé ce cours</button>

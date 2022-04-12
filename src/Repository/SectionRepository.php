@@ -56,6 +56,17 @@ class SectionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findSectionsByCourse($courseId)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.containedIn = :val')
+            ->setParameter('val', $courseId)
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
     // /**
     //  * @return Section[] Returns an array of Section objects
     //  */

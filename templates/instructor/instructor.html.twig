@@ -1,53 +1,49 @@
 {% extends 'base.html.twig' %} {% block title %}Instructeur{% endblock %} {%
 block body %}
 <div class="container-fluid container-lg">
-        <div class="row d-flex justify-content-evenly vh-50">
-          <div class="col-2 border border-4 border-end-0 border-mellow-apricot">
-            <ul id="coursesList">
-              {% for course in allCourses %}
-                <li>
-                  <p class="text-start fs-5 mx-2 my-2">{{course.title}}</p>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
+        <div class="row d-flex justify-content-evenly">
+            <div class="col-2 border border-4 border-end-0 border-mellow-apricot vh-60">
+                <ul id="coursesList">
+                {% for course in courses %}
+                    <li class="nav-item mx-2"><a href="{{ path('app_instructor',{'id':app.user.id,'course': course.id, 'section':course.sectionsContained[0].id, 'lesson': course.sectionsContained[0].lessonsContained[0].id}) }}" class="nav-link french-lilac fs-4 {{ app.request.get('course') == course.id ? "fw-bolder" }}">{{course}}</a></li>
+                {% endfor %}
+                </ul>
+            </div>
             <div class="col-10 border border-4 border-mellow-apricot">
-                <div class="row bg-mellow-apricot" id="courseLessonsList">
+                <div class="row-cols-1 bg-mellow-apricot">
                     <ul class="nav" id="sectionsListInline">
-                        {% for section in course.sectionsContained %}
-                            <li class="mx-2"><span class="french-lilac fs-4">{{section}}</span></li>
-                        {% endfor %}
+                    {% for section in sections %}
+                        <li class="nav-item mx-2"><a href="{{ path('app_instructor',{'id':app.user.id,'course':currentCourse.id, 'section':section.id, 'lesson': section.lessonsContained[0].id}) }}" class="nav-link french-lilac fs-4 {{ app.request.get('section') == section.id ? "fw-bolder" }}">{{section}}</a></li>
+                    {% endfor %}
                     </ul>
                     <ul class="nav" id="lessonsListInline">
                         {# add lessons with JavaScript #}
+                        {% for lesson in lessons %}
+                            <li class="nav-item mx-2"><a href="{{ path('app_instructor',{'id':app.user.id,'course':currentCourse.id, 'section':lesson.containedIn.id, 'lesson' : lesson.id}) }}" class="nav-link french-lilac fs-5 {{ app.request.get('lesson') == lesson.id ? "fw-bolder" }}">{{lesson}}</a></li>
+                        {% endfor %}
                     </ul>
-                </div>
+                </div>                
                 <div class="row" id="lessonInProgress">
                     <div class="col-7 row">
-                        <iframe class="" width="736" height="400" src={{lesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="736" height="400" src={{CurrentLesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         <div class="my-5 mx-5">
                             <ul class="nav" id="resourcesList">
-                                {% for resource in lesson.resources %}
+                                {% for resource in CurrentLesson.resources %}
                                     <li class="mx-4"><a href="{{ asset('uploads/resources/' ~ resource) }}" class="french-lilac fs-4"><img src="{{ asset('uploads/images/file.ico') }}" alt="resource"></a></li>
                                 {% endfor %}
                             </ul>
                         </div>
                     </div>
-                    
                     <div class="col-5 d-flex flex-column justify-content-around">
-                        <p>{{lesson.description}}</p>
-                        <div class="d-flex justify-content-end" id="isFinishedLesson">
-                           {# a button will display here for student #} 
-                        </div>
+                        <p>{{CurrentLesson.description}}</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row d-flex justify-content-around my-5">
+        <div class="row d-flex justify-content-around my-2">
             <a href="{{ path('app_course_index') }}" class="btn btn-french-lilac col-3">Gérer les formations</a>
             <a href="{{ path('app_section_index') }}" class="btn btn-french-lilac col-3">Gérer les sections</a>
             <a href="{{ path('app_lesson_index') }}" class="btn btn-french-lilac col-3">Gérer les leçons</a>
-        </div>
-        
+        </div>  
     </div>
 {% endblock %}

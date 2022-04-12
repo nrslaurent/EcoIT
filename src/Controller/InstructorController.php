@@ -18,108 +18,47 @@ class InstructorController extends AbstractController
     /**
      * @Route("/instructor/{id}", name="app_instructor")
      */
-    public function allCourses(Request $request, CourseRepository $courseRepository, SectionRepository $sectionRepository, LessonRepository $lessonRepository, EntityManagerInterface $entityManager): Response
+    public function allCourses(Request $request, CourseRepository $courseRepository, SectionRepository $sectionRepository, LessonRepository $lessonRepository, EntityManagerInterface $entityManager, $id): Response
     {
 
-        $allCourses = $courseRepository->getAllCoursesByInstructor($this->getUser()->getId());
-        $firstSection = $sectionRepository->findFirstSectionByCourse($allCourses[0]->getId());
-        $firstLesson = $lessonRepository->findFirstLessonBySection($sectionRepository->findFirstSectionByCourse($allCourses[0]->getId()));
+        $firstCourse = $courseRepository->getAllCoursesByInstructor($id)[0];
+        $firstSection = $sectionRepository->findFirstSectionByCourse($firstCourse->getId())[0];
+        $firstLesson = $lessonRepository->findFirstLessonBySection($firstSection)[0];
+        $currentCourseId = null;
+        $currentSectionId = null;
+        $currentLessonId = null;
 
-
-        if (!isset($_GET['course'])) {
-            $_GET['course'] = $allCourses[0]->getTitle();
+        if (!(isset($_GET['course']))) {
+            $currentCourseId = $firstCourse->getId();
+        } else {
+            $currentCourseId = $_GET['course'];
         }
 
         if (!isset($_GET['section'])) {
-            $_GET['section'] = $firstSection[0]->getTitle();
+            $currentSectionId = $firstSection->getId();
+        } else {
+            $currentSectionId = $_GET['section'];
         }
 
         if (!isset($_GET['lesson'])) {
-            $_GET['lesson'] = $firstLesson[0]->getTitle();
+            $currentLessonId = $firstLesson->getId();
+        } else {
+            $currentLessonId = $_GET['lesson'];
         }
 
-        if (!isset($_GET['isCourseChanged'])) {
-            $_GET['isCourseChanged'] = "false";
-        }
 
-        //Ajax request to get lessons list
-        if ($request->isXmlHttpRequest()) {
-            $course = null;
-            foreach ($allCourses as $element) {
-                if ($element->getTitle() === $_GET['course']) {
-                    $course = $element;
-                }
-            }
-
-            $allSections = $sectionRepository->findBy(array('containedIn' => $course), array('id' => 'ASC'));
-            $json = [];
-            if ($_GET['isCourseChanged'] === "true") {
-                $sectionsArray = [];
-                foreach ($allSections as $section) {
-                    array_push($sectionsArray, array(
-                        'section' => $section->getTitle()
-                    ));
-                }
-                $_GET['isCourseChanged'] = "false";
-                array_push($json, $sectionsArray);
-
-                $lessonsArray = [];
-                foreach ($allSections as $section) {
-                    if ($section->getTitle() === $_GET['section']) {
-                        $lessons = $lessonRepository->findBySection($section->getId());
-                        foreach ($lessons as $lesson) {
-                            array_push($lessonsArray, array(
-                                'section' => $section->getTitle(),
-                                'id' => $lesson->getId(),
-                                'title' => $lesson->getTitle(),
-                                'description' => $lesson->getDescription(),
-                                'video' => $lesson->getVideo(),
-                                'resources' => $lesson->getResources(),
-                                'userId' => $this->getUser()->getId(),
-                                'finishedLesson' => "",
-                                'isInstructor' => true
-                            ));
-                        }
-                    }
-                }
-                array_push($json, $lessonsArray);
-            } else {
-                $json = [];
-                foreach ($allSections as $section) {
-                    if ($section->getTitle() === $_GET['section']) {
-                        $lessons = $lessonRepository->findBySection($section->getId());
-                        foreach ($lessons as $lesson) {
-                            array_push($json, array(
-                                'section' => $section->getTitle(),
-                                'id' => $lesson->getId(),
-                                'title' => $lesson->getTitle(),
-                                'description' => $lesson->getDescription(),
-                                'video' => $lesson->getVideo(),
-                                'resources' => $lesson->getResources(),
-                                'userId' => $this->getUser()->getId(),
-                                'finishedLesson' => "",
-                                'isInstructor' => true
-                            ));
-                        }
-                    }
-                }
-            }
-
-            return new JsonResponse(
-                array(
-                    'status' => 'OK',
-                    'message' => $json
-                ),
-                200
-            );
-        }
-
+        $currentCourse = $courseRepository->find($currentCourseId);
+        $sections = $sectionRepository->findSectionsByCourse($currentCourseId);
+        $lessons = $lessonRepository->findBySection($currentSectionId);
+        $currentLesson = $lessonRepository->find($currentLessonId);
 
 
         return $this->renderForm('instructor/instructor.html.twig', [
-            "allCourses" => $allCourses,
-            'course' => $allCourses[0],
-            'lesson' => $firstLesson[0]
+            'courses' => $courseRepository->getAllCoursesByInstructor($id),
+            'currentCourse' => $currentCourse,
+            'sections' => $sections,
+            'lessons' => $lessons,
+            'CurrentLesson' => $currentLesson
         ]);
     }
 }

@@ -112,32 +112,51 @@ class CourseController extends AbstractController
     public function inProgress(Request $request, Course $course, CourseRepository $courseRepository, SectionRepository $sectionRepository, LessonRepository $lessonRepository, EntityManagerInterface $entityManager): Response
     {
 
-        if (!isset($_GET['startCourse'])) {
-            $_GET['startCourse'] = "false";
-        }
-
-        if (!$course->getChosenBy()->contains($this->getUser()->getId())) {
-            $course->addChosenBy($this->getUser());
-            $entityManager->persist($course);
-            $entityManager->flush();
-        }
+        $user = $this->getUser();
+        $firstSection = $sectionRepository->findFirstSectionByCourse($course->getId())[0];
+        $firstLesson = $lessonRepository->findFirstLessonBySection($firstSection)[0];
+        $currentSectionId = null;
+        $currentLessonId = null;
 
         if (!(isset($_GET['finishedLesson']))) {
             $_GET['finishedLesson'] = "false";
         }
 
-        $firstLesson = $lessonRepository->findFirstLessonBySection($sectionRepository->findFirstSectionByCourse($course->getId()));
+        if (!isset($_GET['section'])) {
+            $currentSectionId = $firstSection->getId();
+        } else {
+            $currentSectionId = $_GET['section'];
+        }
 
-        //Ajax request to get lessons list
+        if (!isset($_GET['lesson'])) {
+            $currentLessonId = $firstLesson->getId();
+        } else {
+            $currentLessonId = $_GET['lesson'];
+        }
+
+        $sections = $sectionRepository->findSectionsByCourse($course->getId());
+        $lessons = $lessonRepository->findBySection($currentSectionId);
+        $currentLesson = $lessonRepository->find($currentLessonId);
+
+
+        if (!$course->getChosenBy()->contains($user->getId())) {
+            $course->addChosenBy($user);
+            $entityManager->persist($course);
+            $entityManager->flush();
+        }
+
+        //Ajax request for done lesson
         if ($request->isXmlHttpRequest()) {
+
             foreach ($sectionRepository->findAll() as $section) {
-                if ($section->getContainedIn()->getTitle() === $course->getTitle() && $section->getTitle() === $_GET['section']) {
+                if ($section->getContainedIn()->getTitle() === $course->getTitle() && $section->getTitle() === $sectionRepository->find($currentSectionId)->getTitle()) {
                     $lessons = $lessonRepository->findBySection($section->getId());
                     if ($_GET['finishedLesson'] === "true") {
                         foreach ($lessons as $lesson) {
-                            if ($lesson->getTitle() === $_GET['lesson']) {
+                            if ($lesson->getTitle() === $currentLesson->getTitle()) {
+
                                 $data = $lesson->getFinishedBy();
-                                array_push($data, $this->getUser()->getId());
+                                array_push($data, $user->getId());
                                 $lesson->setFinishedBy($data);
                                 $entityManager->persist($lesson);
                                 $entityManager->flush();
@@ -147,32 +166,19 @@ class CourseController extends AbstractController
                     }
                 }
             }
-            $json = [];
 
-            foreach ($lessons as $lesson) {
-                array_push($json, array(
-                    'id' => $lesson->getId(),
-                    'title' => $lesson->getTitle(),
-                    'description' => $lesson->getDescription(),
-                    'video' => $lesson->getVideo(),
-                    'resources' => $lesson->getResources(),
-                    'finishedLesson' => $lesson->getFinishedBy(),
-                    'userId' => $this->getUser()->getId(),
-                    'isInstructor' => false
-                ));
-            }
             return new JsonResponse(
                 array(
-                    'status' => 'OK',
-                    'message' => $json
+                    'status' => 'OK'
                 ),
                 200
             );
         }
-
         return $this->renderForm('course/inProgress.html.twig', [
             'course' => $course,
-            'lesson' => $firstLesson[0]
+            'sections' => $sections,
+            'lessons' => $lessons,
+            'CurrentLesson' => $currentLesson
         ]);
     }
 }
