@@ -12,7 +12,7 @@
           <div class="card-body col courseCardText d-flex flex-column justify-content-between vh-40">
             <h5 class="card-title text-center">{{course.title}}</h5>
             <p class="card-text overflow-auto">{{course.description}}.</p>
-            <a href="{{ path('app_course_inprogress',{"id":course.id, 'section': 0, 'lesson': 0}) }}" class="btn btn-french-lilac align-self-end">Accéder</a>
+            <a href="{{ path('app_course_inprogress',{"id":course.id}) }}" class="btn btn-french-lilac align-self-end">Accéder</a>
           </div>
         </div>
       </div>
