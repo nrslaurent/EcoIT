@@ -25,21 +25,26 @@ $("#loginForm").on("submit", (event) => {
     method: "GET",
     dataType: "json",
     success: function (data) {
+      var ValidatedAccount = true;
       //compare email value with email field
       $.each(data["message"], (key, value) => {
         if (
-          value["email"].toLowerCase() === $("#inputEmail").val().toLowerCase()
+          value["email"].toLowerCase() ===
+            $("#inputEmail").val().toLowerCase() &&
+          value["isValidated"] === false
         ) {
-          if (value["isValidated"] === false) {
-            alert(
-              "Votre compte n'a pas encore été validé, vous ne pouvez pas vous connecter pour le moment."
-            );
-            window.location.href = "/logout";
-          } else {
-            event.currentTarget.submit();
-          }
+          ValidatedAccount = false;
         }
       });
+      if (ValidatedAccount === false) {
+        alert(
+          "Votre compte n'a pas encore été validé, vous ne pouvez pas vous connecter pour le moment."
+        );
+        window.location.replace("/logout");
+        return false;
+      } else {
+        event.currentTarget.submit();
+      }
     },
   });
 });
@@ -232,4 +237,16 @@ $("input").on("click", (event) => {
       }
     },
   });
+});
+
+$(function () {
+  if (!$("#coursesList li").children().hasClass("fw-bolder")) {
+    $("#coursesList").children().first().addClass("fw-bolder");
+  }
+  if (!$("#sectionsListInline li").children().hasClass("fw-bolder")) {
+    $("#sectionsListInline").children().first().addClass("fw-bolder");
+  }
+  if (!$("#lessonsListInline li").children().hasClass("fw-bolder")) {
+    $("#lessonsListInline").children().first().addClass("fw-bolder");
+  }
 });
