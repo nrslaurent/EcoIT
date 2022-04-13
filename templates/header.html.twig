@@ -8,6 +8,9 @@
           {% if "ROLE_INSTRUCTOR" in student.roles %}
           <a href="{{ path('app_instructor',{'id': student.id}) }}" class="align-self-center mx-5" id="allCoursesNavbar">Gérer mes formations</a>
           {% endif %}
+          {% if "ROLE_ADMIN" in student.roles %}
+          <a href="{{ path('app_admin') }}" class="align-self-center mx-5" id="allCoursesNavbar">Dashboard</a>
+          {% endif %}
         {% endif %}
       {% else %}
         <a href="{{ path('app_homepage') }}" class="align-self-center mx-5" id="allCoursesNavbar">accueil</a>

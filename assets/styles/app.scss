@@ -37,7 +37,7 @@ $champagne-pink: rgba(231, 207, 188, 1);
   background-color: $mellow-apricot;
 }
 
-$values : (10,20,25,30,40,50,75);
+$values : (10,20,25,30,40,50,75,80,85,90);
 @each $value in $values {
   .vh-#{$value}{
     height: #{$value}vh;

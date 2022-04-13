@@ -239,6 +239,7 @@ $("input").on("click", (event) => {
   });
 });
 
+//add font weight bolder on first course, first section and first lesson
 $(function () {
   if (!$("#coursesList li").children().hasClass("fw-bolder")) {
     $("#coursesList").children().first().addClass("fw-bolder");
