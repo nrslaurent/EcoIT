@@ -82,7 +82,7 @@ class CourseController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                if ($form->get('isPublished')->getData()) {
+                if ($form->get('isPublished')->getData() and $course->getPublishedAt() !== null) {
                     $course->setPublishedAt(new DateTimeImmutable());
                 }
                 $courseRepository->add($course);

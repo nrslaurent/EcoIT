@@ -60,10 +60,16 @@ class Course
      */
     private $picture;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="course")
+     */
+    private $questions;
+
     public function __construct()
     {
         $this->chosenBy = new ArrayCollection();
         $this->sectionsContained = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,5 +206,35 @@ class Course
     public function __toString()
     {
         return $this->title;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setCourse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getCourse() === $this) {
+                $question->setCourse(null);
+            }
+        }
+
+        return $this;
     }
 }
