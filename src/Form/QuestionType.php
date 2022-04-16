@@ -96,7 +96,7 @@ class QuestionType extends AbstractType
                 [
                     'label' => 'Bonne réponse',
                     'mapped' => false,
-                    'required' => false
+                    'required' => false,
                 ]
 
             );
