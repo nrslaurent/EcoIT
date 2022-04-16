@@ -1,0 +1,24 @@
+{# templates/admin/index.html.twig #}
+
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block main %}
+<a href="/" class="fs-5">Accueil</a>
+<h1 class="text-primary my-3"> Candidats à contacter</h1>
+<div class="row d-flex justify-content-around g-2">
+{% for instructor in instructors %}
+  <div class="col-5 d-flex border border-secondary border-4 bg-mellow-apricot py-1">
+    <div>
+      <img src="{{asset('/uploads/images/' ~ instructor.picture) }}" alt="photo" width="96" height="96" />
+    </div>
+    <div class="mx-2">
+      <p>Nom: {{ instructor.lastname }}</p>
+      <p>Prémon: {{ instructor.firstname }}</p>
+      <p>Email: {{instructor.email}}</p>
+      <p>Compétences : {{instructor.skills}}</p>
+    </div>
+    
+  </div>
+{% endfor %}
+</div>
+{% endblock %}

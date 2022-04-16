@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Course;
 use App\Entity\Lesson;
+use App\Entity\Question;
 use App\Entity\Section;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -19,7 +20,11 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return parent::index();
+        $instructors = $this->getDoctrine()->getRepository(User::class)->findby(array('isValidated' => false));
+        //return parent::index();
+        return $this->render('admin/easyAdmin.html.twig', [
+            'instructors' => $instructors
+        ]);
     }
 
     public function configureDashboard(): Dashboard
