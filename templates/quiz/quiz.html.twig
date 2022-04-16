@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quiz{% endblock %}
+
+{% block body %}
+<div class="container-fluid container-lg">
+    <h1 class="text-center">Quiz</h1>
+    {% for question in questions %}
+        <div class="row my-3 question" id="{{question.id}}">
+            <h4 class="my-3">{{ question.question}}</h4>
+            {% for element in question.answers %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" >
+                    <label class="form-check-label" for="flexCheckDefault">{{ element[0] }}</label>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <button class="btn btn-french-lilac position-absolute end-50" id="checkButton">Vérifier</button>
+</div>
+{% endblock %}

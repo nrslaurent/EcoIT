@@ -6,6 +6,7 @@ use App\Entity\Course;
 use App\Form\CourseType;
 use App\Repository\CourseRepository;
 use App\Repository\LessonRepository;
+use App\Repository\QuestionRepository;
 use App\Repository\SectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -116,7 +117,7 @@ class CourseController extends AbstractController
     /**
      * @Route("/inprogress/{id}", name="app_course_inprogress", methods={"GET"})
      */
-    public function inProgress(Request $request, Course $course, CourseRepository $courseRepository, SectionRepository $sectionRepository, LessonRepository $lessonRepository, EntityManagerInterface $entityManager): Response
+    public function inProgress(Request $request, Course $course, QuestionRepository $questionRepository, SectionRepository $sectionRepository, LessonRepository $lessonRepository, EntityManagerInterface $entityManager): Response
     {
 
         $user = $this->getUser();
@@ -152,6 +153,9 @@ class CourseController extends AbstractController
             $entityManager->flush();
         }
 
+        $questions = $questionRepository->findBy(array('course' => $course->getId()), array('id' => 'ASC'));
+
+
         //Ajax request for done lesson
         if ($request->isXmlHttpRequest()) {
 
@@ -181,11 +185,13 @@ class CourseController extends AbstractController
                 200
             );
         }
+
         return $this->renderForm('course/inProgress.html.twig', [
             'course' => $course,
             'sections' => $sections,
             'lessons' => $lessons,
-            'CurrentLesson' => $currentLesson
+            'CurrentLesson' => $currentLesson,
+            'quiz' => $questions
         ]);
     }
 }

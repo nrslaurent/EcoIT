@@ -45,9 +45,9 @@ class QuestionController extends AbstractController
             for ($i = 1; $i < 5; $i++) {
                 if ($form->get('answer' . $i)->getData()) {
                     if ($form->get('answer' . $i . 'Checkbox')->getData()) {
-                        array_push($answers, [$i, true]);
+                        array_push($answers, [$form->get('answer' . $i)->getData(), true]);
                     } else {
-                        array_push($answers, [$i, false]);
+                        array_push($answers, [$form->get('answer' . $i)->getData(), false]);
                     }
                 }
             }

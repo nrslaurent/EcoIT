@@ -19,6 +19,9 @@
                         {% for lesson in lessons %}
                             <li class="nav-item mx-2"><a href="{{ path('app_course_inprogress',{'id':course.id, 'section':lesson.containedIn.id, 'lesson' : lesson.id}) }}" class="nav-link french-lilac fs-5 {{ app.request.get('lesson') == lesson.id ? "fw-bolder" }}">{{lesson}}</a></li>
                         {% endfor %}
+                        {% if quiz|length > 0 %}
+                        <li class="nav-item mx-2"><a href="{{ path('app_quiz',{'course':course.id}) }}" class="nav-link french-lilac fs-5 ">Quiz</a></li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="row">

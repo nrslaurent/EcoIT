@@ -251,3 +251,57 @@ $(function () {
     $("#lessonsListInline").children().first().addClass("fw-bolder");
   }
 });
+
+//check user answers
+$("#checkButton").on("click", (event) => {
+  $.ajax({
+    url: window.location.href,
+    method: "GET",
+    dataType: "json",
+    data: {},
+    success: function (data) {
+      $.each(data["message"], (key, value) => {
+        $(".question").each(function () {
+          let currentQuestion = $(this);
+          if (currentQuestion.attr("id") == value["id"]) {
+            currentQuestion.find("label").each(function () {
+              let labelAnswer = $(this);
+              $.each(value["answers"], (key, value) => {
+                if (value[0] === labelAnswer.text()) {
+                  labelAnswer
+                    .parent()
+                    .children()
+                    .first()
+                    .each(function () {
+                      if (
+                        ($(this).parent().children().first().is(":checked") &&
+                          value[1] === false) ||
+                        (!$(this).parent().children().first().is(":checked") &&
+                          value[1] === true)
+                      ) {
+                        $(this)
+                          .parent()
+                          .append(
+                            '<img src="/uploads/images/false.png" alt="response" width="24" height="24" />'
+                          );
+                      } else if (
+                        $(this).parent().children().first().is(":checked") &&
+                        value[1] === true
+                      ) {
+                        $(this)
+                          .parent()
+                          .append(
+                            '<img src="/uploads/images/right.png" alt="response" width="24" height="24" />'
+                          );
+                      }
+                    });
+                  $("#checkButton").addClass("disabled");
+                }
+              });
+            });
+          }
+        });
+      });
+    },
+  });
+});
