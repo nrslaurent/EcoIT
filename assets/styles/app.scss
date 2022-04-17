@@ -94,6 +94,11 @@ span:hover {
 }
 
 @media (max-width: 992px) {
+
+  body {
+    font-size: x-large;
+  }
+
   .navbar {
     .list {
       display: flex;
@@ -109,6 +114,9 @@ span:hover {
     #logo {
       width: max-content;
       height: max-content;
+    }
+    a {
+      font-size: x-large;
     }
   }
   //hide text in footer
@@ -137,25 +145,37 @@ span:hover {
       font-size:larger;
     }
   }
+
+  input, textarea {
+    line-height: 100px !important;
+    font-size: 50px !important;
 }
 
-/*@media (max-width: 992px) and (orientation: portrait) {
-  
-  
-  .courseCardText {
-    font-size:larger;
-    .btn {
-      width: 40%;
-      font-size:larger;
+  label {
+    font-size: larger !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: larger !important;
+  }
+
+  button {
+    font-size: larger !important;
+  }
+
+  #lessonInProgress {
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    margin: auto;
+    #videoResources {
+      margin: auto;
     }
   }
-  img {
-    max-width: 48px;
-    max-height: 48px;
-  }
+}
 
-  .card-body {
-    justify-content: space-around !important;
-  }
-
-}*/

@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AllCoursesController extends AbstractController
 {
     /**
-     * @Route("/all/courses", name="app_all_courses")
+     * @Route("/all_courses", name="app_all_courses")
      */
     public function index(CourseRepository $courseRepository, Request $request): Response
     {

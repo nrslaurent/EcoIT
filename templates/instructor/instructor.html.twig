@@ -2,7 +2,7 @@
 block body %}
 <div class="container-fluid container-lg">
         {% if courses|length > 0 %}
-        <div class="row d-flex justify-content-evenly">
+        <div class="row d-flex justify-content-evenly" id="instructorView">
             <div class="col-2 border border-4 border-end-0 border-mellow-apricot vh-60">
                 <ul id="coursesList">
                 {% for course in courses %}
@@ -24,7 +24,7 @@ block body %}
                     </ul>
                 </div>                
                 <div class="row" id="lessonInProgress">
-                    <div class="col-7 row">
+                    <div class="row col-xs-12 col-lg-7" id="videoResources">
                         <iframe width="736" height="400" src={{CurrentLesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         <div class="my-5 mx-5">
                             <ul class="nav" id="resourcesList">
@@ -34,7 +34,7 @@ block body %}
                             </ul>
                         </div>
                     </div>
-                    <div class="col-5 d-flex flex-column justify-content-around">
+                    <div class="col-xs-12 col-lg-5 d-flex flex-column justify-content-around">
                         <p>{{CurrentLesson.description}}</p>
                     </div>
                 </div>

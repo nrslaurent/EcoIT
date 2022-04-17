@@ -18,14 +18,13 @@
                         {% endif %}
                     </ul>
                     <ul class="nav" id="lessonsListInline">
-                        {# add lessons with JavaScript #}
                         {% for lesson in lessons %}
                             <li class="nav-item mx-2"><a href="{{ path('app_course_inprogress',{'id':course.id, 'section':lesson.containedIn.id, 'lesson' : lesson.id}) }}" class="nav-link french-lilac fs-5 {{ app.request.get('lesson') == lesson.id ? "fw-bolder" }}">{{lesson}}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="row">
-                    <div class="col-7 row">
+                <div class="row" id="lessonInProgress">
+                    <div class="row col-xs-12 col-lg-7" id="videoResources">
                         <iframe width="736" height="400" src={{CurrentLesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         <div class="my-5 mx-5">
                             <ul class="nav" id="resourcesList">
@@ -36,7 +35,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-5 d-flex flex-column justify-content-around">
+                    <div class="col-xs-12 col-lg-5 d-flex flex-column justify-content-around">
                         <p>{{CurrentLesson.description}}</p>
                         <div class="d-flex justify-content-end" id="isFinishedLesson">
                             {%  if app.user.id in CurrentLesson.FinishedBy %}
