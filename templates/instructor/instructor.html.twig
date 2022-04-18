@@ -1,16 +1,17 @@
 {% extends 'base.html.twig' %} {% block title %}Instructeur{% endblock %} {%
 block body %}
 <div class="container-fluid container-lg">
+    <div class="d-flex flex-column vh-80 justify-content-center">
         {% if courses|length > 0 %}
         <div class="row d-flex justify-content-evenly" id="instructorView">
-            <div class="col-2 border border-4 border-end-0 border-mellow-apricot vh-60">
-                <ul id="coursesList">
+            <div class="col-lg-2 border border-4 border-end-xs-0 border-mellow-apricot vh-60">
+                <ul class="nav" id="coursesList">
                 {% for course in courses %}
                     <li class="nav-item mx-2"><a href="{{ path('app_instructor',{'id':app.user.id,'course': course.id, 'section':course.sectionsContained[0].id, 'lesson': course.sectionsContained[0].lessonsContained[0].id}) }}" class="nav-link french-lilac fs-5 {{ app.request.get('course') == course.id ? "fw-bolder" }} text-break">{{course}}</a></li>
                 {% endfor %}
                 </ul>
             </div>
-            <div class="col-10 border border-4 border-mellow-apricot p-0">
+            <div class="col-lg-10 border border-4 border-mellow-apricot p-0">
                 <div class="row-cols-1 bg-mellow-apricot">
                     <ul class="nav" id="sectionsListInline">
                     {% for section in sections %}
@@ -24,7 +25,7 @@ block body %}
                     </ul>
                 </div>                
                 <div class="row" id="lessonInProgress">
-                    <div class="row col-xs-12 col-lg-7" id="videoResources">
+                    <div class="row col-lg-7" id="videoResources">
                         <iframe width="736" height="400" src={{CurrentLesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         <div class="my-5 mx-5">
                             <ul class="nav" id="resourcesList">
@@ -34,7 +35,7 @@ block body %}
                             </ul>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-lg-5 d-flex flex-column justify-content-around">
+                    <div class="col-lg-5 d-flex flex-column justify-content-around">
                         <p>{{CurrentLesson.description}}</p>
                     </div>
                 </div>
@@ -47,5 +48,6 @@ block body %}
             <a href="{{ path('app_lesson_index') }}" class="btn btn-french-lilac col-2">Gérer les leçons</a>
             <a href="{{ path('app_question_index') }}" class="btn btn-french-lilac col-2">Gérer les Questions</a>
         </div>  
-    </div>
+    </div>     
+</div>
 {% endblock %}

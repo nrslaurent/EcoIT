@@ -4,8 +4,8 @@
 
 {% block body %}
     <div class="container-fluid container-lg">
-        <div class="d-flex flex-column">
-            <h1 class="text-center my-2 active">{{course.title}}</h1>
+        <div class="d-flex flex-column vh-80 justify-content-center">
+            <h1 class="text-center mb-5 active">{{course.title}}</h1>
             <div class="border border-4 border-mellow-apricot">
                 <div class="row-cols-1 bg-mellow-apricot">
                     <ul class="nav" id="sectionsListInline">
@@ -24,7 +24,7 @@
                     </ul>
                 </div>
                 <div class="row" id="lessonInProgress">
-                    <div class="row col-xs-12 col-lg-7" id="videoResources">
+                    <div class="row col-lg-7" id="videoResources">
                         <iframe width="736" height="400" src={{CurrentLesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         <div class="my-5 mx-5">
                             <ul class="nav" id="resourcesList">
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-xs-12 col-lg-5 d-flex flex-column justify-content-around">
+                    <div class="col-lg-5 d-flex flex-column justify-content-around">
                         <p>{{CurrentLesson.description}}</p>
                         <div class="d-flex justify-content-end" id="isFinishedLesson">
                             {%  if app.user.id in CurrentLesson.FinishedBy %}
