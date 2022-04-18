@@ -1,55 +1,62 @@
 <div class="container-fluid container-lg">
   <nav class="row navbar">
-    <div class="d-flex col-7">
-      <img src="{{ asset("uploads/images/logo.png") }}" alt="logo" style="max-width:80px" id="logo">
-      {% if app.request.attributes.get('_route') == "app_homepage" %}
-      <a href="{{ path('app_all_courses') }}" class="align-self-center mx-5" id="allCoursesNavbar">Toutes nos formations</a>
-      {% if student.roles is defined and student.roles is not null %}
-          {% if "ROLE_INSTRUCTOR" in student.roles %}
-          <a href="{{ path('app_instructor',{'id': student.id}) }}" class="align-self-center mx-5" id="allCoursesNavbar">Gérer mes formations</a>
+    <div class="d-flex justify-content-between">
+      <div class="col-9 col-lg-10 d-flex">
+        <div class="row col-12 d-flex">
+          <img src="{{ asset("uploads/images/logo.png") }}" alt="logo" style="max-width:80px" id="logo">
+          {% if app.request.attributes.get('_route') == "app_homepage" %}
+          <a href="{{ path('app_all_courses') }}" class="align-self-center mx-5 col-4" id="allCoursesNavbar">Toutes nos formations</a>
+          {% if student.roles is defined and student.roles is not null %}
+              {% if "ROLE_INSTRUCTOR" in student.roles %}
+              <a href="{{ path('app_instructor',{'id': student.id}) }}" class="align-self-center col-4" id="allCoursesNavbar">Gérer mes formations</a>
+              {% endif %}
+              {% if "ROLE_ADMIN" in student.roles %}
+              <a href="{{ path('app_admin') }}" class="align-self-center mx-5 col-4" id="allCoursesNavbar">Dashboard</a>
+              {% endif %}
+            {% endif %}
+          {% else %}
+            <a href="{{ path('app_homepage') }}" class="align-self-center mx-5 col-3 col-lg-1" id="allCoursesNavbar">accueil</a>
+            {% if app.request.attributes.get('_route') != "app_all_courses" %}
+            <a href="{{ path('app_all_courses') }}" class="align-self-center mx-5 col-4" id="allCoursesNavbar">Toutes nos formations</a>
+            {% else %}
+              <form class="m-auto align-self-center col-10 col-xl-4" id="searchBarForm">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchBar">
+              </form>
+              {% if app.user %}
+                <div class="col">
+                  <div class="form-check form-switch d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" role="switch" id="myCourses">
+                    <label class="form-check-label french-lilac" for="flexSwitchCheckDefault">Formations suivies</label>
+                  </div>
+                  <div class="form-check form-switch d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" role="switch" id="doneCourses">
+                    <label class="form-check-label french-lilac" for="flexSwitchCheckChecked">Formations terminées</label>
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
           {% endif %}
-          {% if "ROLE_ADMIN" in student.roles %}
-          <a href="{{ path('app_admin') }}" class="align-self-center mx-5" id="allCoursesNavbar">Dashboard</a>
-          {% endif %}
-        {% endif %}
-      {% else %}
-        <a href="{{ path('app_homepage') }}" class="align-self-center mx-5" id="allCoursesNavbar">accueil</a>
-        {% if app.request.attributes.get('_route') != "app_all_courses" %}
-        <a href="{{ path('app_all_courses') }}" class="align-self-center mx-5" id="allCoursesNavbar">Toutes nos formations</a>
+        </div>
+      </div>
+
+      <div class="col-3 col-lg-2">
+        <ul class="list mt-2 d-flex flex-column align-items-end">
+        {% if app.user %}
+          <li class="list-item" id="logoutNavbar"><a href="{{ path("app_logout") }}"><img src="{{ asset('uploads/images/logout.png') }}" alt="logout"></a></li>
         {% else %}
-          <form class="col-6 mx-5 align-self-center">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchBar">
-          </form>
-          {% if app.user %}
-            <div class="col-8">
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="myCourses">
-                <label class="form-check-label french-lilac" for="flexSwitchCheckDefault">Formations suivies</label>
-              </div>
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="doneCourses">
-                <label class="form-check-label french-lilac" for="flexSwitchCheckChecked">Formations terminées</label>
-              </div>
-            </div>
+          {% if app.request.attributes.get('_route') != "app_register" %}
+          <li class="list-item mb-1" id="registerNavbar"><a href="{{ path("app_register",{'person':'student'}) }}">S'inscrire</a></li>
+          {% endif %}
+          {% if app.request.attributes.get('_route') != "app_login" %}
+          <li class="list-item" id="loginNavbar"><a href="{{ path("app_login") }}">Se connecter</a></li>
           {% endif %}
         {% endif %}
-      {% endif %}
+        </ul>
+      </div>
     </div>
-  
-    <ul class="list mt-2 col-4">
-      {% if app.user %}
-        <li class="list-item" id="logoutNavbar"><a href="{{ path("app_logout") }}"><img src="{{ asset('uploads/images/logout.png') }}" alt="logout"></a></li>
-      {% else %}
-        {% if app.request.attributes.get('_route') != "app_register" %}
-        <li class="list-item" id="registerNavbar"><a href="{{ path("app_register",{'person':'student'}) }}">S'inscrire</a></li>
-        {% endif %}
-        {% if app.request.attributes.get('_route') != "app_login" %}
-        <li class="list-item" id="loginNavbar"><a href="{{ path("app_login") }}">Se connecter</a></li>
-        {% endif %}
-      {% endif %}
-    </ul>
-  </nav>
+  </nav> 
   {% if app.user %}
     <p class="text-end">{{app.user.username}}</p>
   {% endif %}
+    </div>
 </div>  

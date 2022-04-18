@@ -95,9 +95,9 @@ span:hover {
 
 @media (max-width: 992px) {
 
-  body {
+  /*body {
     font-size: x-large;
-  }
+  }*/
 
   .navbar {
     .list {
@@ -146,15 +146,19 @@ span:hover {
     }
   }
 
-  input, textarea {
+  #registerForm, #loginForm {
+    font-size: xx-large!important;
+    input {
     line-height: 100px !important;
     font-size: 50px !important;
+    }
+    label {
+      font-size: larger !important;
+    }
   }
 
 
-  label {
-    font-size: larger !important;
-  }
+  
 
   h1,
   h2,
@@ -196,5 +200,15 @@ span:hover {
     font-size: larger !important;
   }
 
+  #searchBarForm {
+    order: 4;
+  
+  }
 }
+@media (max-width: 1200px) {
+  #searchBarForm {
+    order: 4;
+  }
+}
+
 

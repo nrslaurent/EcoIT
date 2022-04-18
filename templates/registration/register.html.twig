@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container-fluid lg-container">
     <div class="row vh-100 d-flex justify-content-center align-items-center">
-        <div class="col-10 col-lg-4">
+        <div class="col-10 col-lg-4" id="registerForm">
             <h1 class="old-rose text-center mb-5">S'inscrire</h1>
             {% if app.request.query.get("person") == "student" %}
                 {{ form_start(registrationForm) }}
