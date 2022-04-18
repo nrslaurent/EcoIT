@@ -58,6 +58,12 @@ I recommand you to activate [secure access](https://devcenter.heroku.com/article
 - `git add composer.json composer.lock symfony.lock public/.htaccess`
 - `git commit -m "apache-pack"`
 
+***Add buildPack for Webpack***
+
+Run in your terminal:
+- `heroku buildpacks:add heroku/php`
+- `heroku buildpacks:add --index 1 heroku/nodejs`
+
 ***Database: I recommand [JawsDB MySQL](https://devcenter.heroku.com/articles/jawsdb)***
 - Run `heroku addons:create jawsdb` in your terminal (into project folder) to install JawsDB MySQL
 - Run `heroku config:get JAWSDB_URL`to get database informations
