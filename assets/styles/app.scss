@@ -180,9 +180,20 @@ span:hover {
     }
   }
 
+  #coursesListContainer {
+    background-color: $mellow-apricot;
+  }
   #coursesList li{
     display: flex;
     flex-direction: row;
+    margin: 0 !important;
+    a {
+      font-size: larger !important;
+    }
+  }
+
+  .registerChoice {
+    font-size: larger !important;
   }
 
 }

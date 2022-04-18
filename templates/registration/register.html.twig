@@ -26,9 +26,9 @@
 
             {# add link to register as instructor #}
             {% if app.request.query.get("person") == "student" %}
-                <p class="mellow-apricot fs-5 fst-italic">Pour s'inscrire en tant qu'instructeur, cliquer <a href="{{ path('app_register', {'person':'instructor'}) }}">ici</a></p>
+                <p class="mellow-apricot fs-5 fst-italic registerChoice">Pour s'inscrire en tant qu'instructeur, cliquer <a href="{{ path('app_register', {'person':'instructor'}) }}">ici</a></p>
             {% elseif app.request.query.get("person") == "instructor" %}
-                <p class="mellow-apricot fs-5 fst-italic">Pour s'inscrire en tant qu'étudiant, cliquer <a href="{{ path('app_register', {'person':'student'}) }}">ici</a></p>
+                <p class="mellow-apricot fs-5 fst-italic registerChoice">Pour s'inscrire en tant qu'étudiant, cliquer <a href="{{ path('app_register', {'person':'student'}) }}">ici</a></p>
             {% endif %}
         </div>
     </div>

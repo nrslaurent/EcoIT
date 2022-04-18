@@ -24,17 +24,18 @@
                     </ul>
                 </div>
                 <div class="row" id="lessonInProgress">
-                    <div class="row col-lg-7" id="videoResources">
-                        <iframe width="736" height="400" src={{CurrentLesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <div class="my-5 mx-5">
+                    <div class="col-lg-7" id="videoResources">
+                        <div class="row">
+                            <iframe width="736" height="400" src={{CurrentLesson.video}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="row my-5 mx-5">
                             <ul class="nav" id="resourcesList">
                                 {% for resource in CurrentLesson.resources %}
                                     <li class="mx-4"><a href="{{ asset('uploads/resources/' ~ resource) }}" class="french-lilac fs-4"><img src="{{ asset('uploads/images/file.ico') }}" alt="resource"></a></li>
                                 {% endfor %}
                             </ul>
                         </div>
-                    </div>
-                    
+                    </div>             
                     <div class="col-lg-5 d-flex flex-column justify-content-around">
                         <p>{{CurrentLesson.description}}</p>
                         <div class="d-flex justify-content-end" id="isFinishedLesson">
