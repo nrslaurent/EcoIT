@@ -19,8 +19,8 @@
             {% for question in questions %}
                 <tr>
                     <td>{{ question.id }}</td>
-                    <td>{{ question.question }}</td>
-                    <td>{{ question.answers ? question.answers|json_encode : '' }}</td>
+                    <td class="text-break">{{ question.question }}</td>
+                    <td class="text-break">{{ question.answers ? question.answers|json_encode : '' }}</td>
                     <td>
                         <a href="{{ path('app_question_edit', {'id': question.id}) }}">Modifier</a>
                     </td>
@@ -33,7 +33,7 @@
             </tbody>
         </table>
 
-        <a href="{{ path('app_question_new') }}">Nouvelle question</a>
-        <a href="{{ path('app_instructor', {'id': user.id }) }}" class="btn btn-french-lilac  mx-5">Retour</a>
+        <a href="{{ path('app_question_new') }}" class="btn btn-french-lilac">Nouvelle question</a>
+        <a href="{{ path('app_instructor', {'id': user.id }) }}" class="btn btn-french-lilac mx-5">Retour</a>
     </div>
 {% endblock %}

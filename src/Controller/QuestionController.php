@@ -22,6 +22,7 @@ class QuestionController extends AbstractController
     {
         return $this->render('question/index.html.twig', [
             'questions' => $questionRepository->findAll(),
+            'user' => $this->getUser()
         ]);
     }
 

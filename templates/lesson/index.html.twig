@@ -20,9 +20,9 @@
             {% for lesson in lessons %}
                 <tr>
                     <td>{{ lesson.title }}</td>
-                    <td>{{ lesson.video }}</td>
-                    <td>{{ lesson.description }}</td>
-                    <td>{{ lesson.resources ? lesson.resources|join(', ') : '' }}</td>
+                    <td class="text-break">{{ lesson.video }}</td>
+                    <td class="text-break">{{ lesson.description }}</td>
+                    <td class="text-break">{{ lesson.resources ? lesson.resources|join(', ') : '' }}</td>
                     <td>
                         <a href="{{ path('app_lesson_edit', {'id': lesson.id}) }}">Modifier</a>
                     </td>
