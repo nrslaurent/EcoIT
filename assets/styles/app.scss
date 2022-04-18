@@ -116,7 +116,7 @@ span:hover {
       height: max-content;
     }
     a {
-      font-size: x-large;
+      font-size: larger;
     }
   }
   //hide text in footer
@@ -156,9 +156,6 @@ span:hover {
       font-size: larger !important;
     }
   }
-
-
-  
 
   h1,
   h2,
@@ -205,6 +202,7 @@ span:hover {
   
   }
 }
+
 @media (max-width: 1200px) {
   #searchBarForm {
     order: 4;

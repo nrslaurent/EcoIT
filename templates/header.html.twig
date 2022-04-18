@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between">
       <div class="col-9 col-lg-10 d-flex">
         <div class="row col-12 d-flex">
-          <img src="{{ asset("uploads/images/logo.png") }}" alt="logo" style="max-width:80px" id="logo">
+          <img src="{{ asset("uploads/images/logo.png") }}" alt="logo" class="align-self-center" style="max-width:80px" id="logo">
           {% if app.request.attributes.get('_route') == "app_homepage" %}
           <a href="{{ path('app_all_courses') }}" class="align-self-center mx-5 col-4" id="allCoursesNavbar">Toutes nos formations</a>
           {% if student.roles is defined and student.roles is not null %}
