@@ -2,7 +2,7 @@
 {% block title %}Les formations{% endblock %}
 
 {% block body %}
-<div class="container-fluid container-lg vh-100">
+<div class="container-fluid container-lg {{ allCourses|length < 5 ? "vh-100" }}">
   <div class="row d-flex justify-content-center align-items-center" id="allCardsPage">
   {% for course in allCourses %}
     <div class="col-xs-12 col-lg-3">
