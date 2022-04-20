@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\Course;
 use App\Entity\Lesson;
-use App\Entity\Question;
 use App\Entity\Section;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
