@@ -17,11 +17,13 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body class="d-flex flex-column vh-100 justify-content-start">
+    <body class="d-flex flex-column vh-100">
     <div>
     {{  include ('header.html.twig') }}
     {% block body %}{% endblock %}
     </div>
+    <div class="mt-auto">
     {{  include ('footer.html.twig') }}
+    </div>
     </body>
 </html>
