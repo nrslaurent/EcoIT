@@ -31,7 +31,7 @@ class UserFixtures extends Fixture
             $instructor->setPassword($this->hasher->hashPassword($instructor, 'Password1'));
             $instructor->setFirstname($faker->firstName());
             $instructor->setLastname($faker->lastName());
-            $instructor->setPicture('user-1-62534b9b7a517.png');
+            $instructor->setPicture('1-62534b9b7a517.png');
             $instructor->setSkills($faker->text());
             $instructor->setIsValidated(true);
             $manager->persist($instructor);
