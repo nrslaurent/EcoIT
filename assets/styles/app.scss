@@ -201,6 +201,14 @@ span:hover {
     order: 4;
   
   }
+
+  .form-check-input {
+    transform: scale(1.5) !important;
+  }
+
+  .form-check-label {
+    font-size: x-large !important;
+  }
 }
 
 @media (max-width: 1200px) {
