@@ -39,6 +39,10 @@ Add an administrator account
 - In your terminal, go into project folder and run `php bin/console security:hash-password` to generate a hashed password (choose App\Entity\User at the next step et enter the password)
 - Launch your SGDB manager application (ex: PhpMyAdmin) and enter SQL request following (replace password by hashed password you got previously): `INSERT INTO user(email, roles, password,is_validated) VALUES ('admin@test.fr','["ROLE_USER","ROLE_ADMIN"]','password',true)`
 
+Add data to the database
+
+- In your terminal, go into project folder and run `php bin/console doctrine:fixtures:load --append`
+
 ---
 
 ---
