@@ -20,13 +20,13 @@ I recommand to use [WAMP](https://www.wampserver.com/), [MAMP](https://www.mamp.
 
 - Open a console terminal
 - Go to the directory where you want to install the application
-- Run `git clone git@github.com:nrslaurent/EcoIT.git`
+- Run `git clone https://github.com/nrslaurent/EcoIT.git`
 - Run your development software (Visual Studio Code, Atom...) and open the downloaded folder
 - Copy the ".env" file and rename the new file ".env.local"
 - Uncomment the line that match with your database server and complete informations (username, password, database name and, if it's necessary, connection port)
 - In your terminal, go into the downloaded folder (run `cd EcoIT`)
-- Run `composer install` to install all dependencies
-- Finally, run `symfony server:start`
+- Run `composer install` and `npm install` to install all dependencies
+- Finally, run `symfony server:start` and `npm run watch`
 
 Now you need to create database and tables:
 
@@ -63,7 +63,7 @@ We will use Heroku to host this application, you can reach documentation [here](
 
 - Open a terminal
 - Go to the directory where you want to install the application
-- Run `git clone git@github.com:nrslaurent/EcoIT.git`
+- Run `git clone https://github.com/nrslaurent/EcoIT.git`
 - In your terminal, go into the downloaded folder (run `cd EcoIT`)
 - Run `heroku login`
 - Run `heroku create` to create a Heroku application
